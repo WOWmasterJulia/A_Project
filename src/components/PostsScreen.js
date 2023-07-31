@@ -43,11 +43,13 @@ const styles = StyleSheet.create({
     // justifyContent: "center",
     },
     profileWrap: {
-        display: 'flex',
-        // alignItems: 'center',
+        // display: 'flex',
+        alignItems: 'center',
         alignSelf: 'flex-start', 
         justifyContent: 'flex-start',
         gap: 8,
+      flexDirection: 'row',
+        marginTop: 120,
     // backgroundColor: '#fff',
     // marginTop: 263,
     // paddingBottom: 79,
@@ -61,7 +63,7 @@ const styles = StyleSheet.create({
   image: {
       width: 60,
       height: 60,
-      marginTop: 120,
+      
     // marginTop: -60,  
     // alignSelf: 'center', 
   },
