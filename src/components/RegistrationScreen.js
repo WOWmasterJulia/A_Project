@@ -14,33 +14,42 @@ export default function Registration() {
 const navigation = useNavigation();
   
   return (
-     
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
-        <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          // style={{ flex: 1 }}
-        > 
-          <ImageBackground source={Background} resizeMode="cover" style={styles.background}> 
-        
-            <View style={styles.registrationWrap}>
-              <Image source={require('../assets_new/photos/Add_Ava.png')} resizeMode="cover" style={styles.image}></Image>
-              <Pressable style={styles.buttonAdd}
-                onPress={() => navigation.navigate("Text")}>
-                <Image source={require('../assets_new/icons/add.png')}style={styles.btnAdd}></Image> 
-              </Pressable>
-              <Text style={styles.title}>Реєстрація</Text>
+    
+      <ImageBackground source={Background} resizeMode="cover" style={styles.background}> 
+        <View style={styles.container}>
+         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
+            behavior={Platform.OS === "ios" ? "padding" : "height"}>
+          
+        <View>
+          <View style={styles.Wrap}>
+            <Image source={require('../assets_new/photos/Add_Ava.png')} resizeMode="cover" style={styles.image}></Image>
+            <Pressable style={styles.buttonAdd}
+              onPress={() => navigation.navigate("Text")}>
+              <Image source={require('../assets_new/icons/add.png')}style={styles.btnAdd}></Image> 
+            </Pressable>
+          </View>
+          
+          <View style={styles.registrationWrap}>
+            <Text style={styles.title}>Реєстрація</Text>
+            <View style={styles.inputsWrap}>
+                <TextInput style={styles.input} placeholder="Логін"
+                value={login}
+                onChangeText={setLogin}/>
+                <TextInput style={styles.input} placeholder="Адреса електронної пошти"
+                value={email}
+                onChangeText={setEmail}/> 
+                <TextInput style={styles.input} placeholder="Пароль"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry={true} />
+            </View> 
+          </View>
+        </View>
+          </KeyboardAvoidingView>
+          </TouchableWithoutFeedback>
 
-              <TextInput style={styles.input} placeholder="Логін"
-              value={login}
-              onChangeText={setLogin}/>
-              <TextInput style={styles.input} placeholder="Адреса електронної пошти"
-              value={email}
-              onChangeText={setEmail}/> 
-              <TextInput style={styles.input} placeholder="Пароль"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry={true}/>        
+          <View style={styles.btnWrap}>
               <Pressable style={styles.buttonRegistration}
                 onPress={() => navigation.navigate("Posts")}>
                 <Text style={styles.btnReg}>Зареєстуватися</Text>
@@ -49,32 +58,18 @@ const navigation = useNavigation();
                 onPress={() => navigation.navigate("Login")}>
                 <Text style={styles.text}>Вже є акаунт? Увійти</Text>
               </Pressable>
-              {/* <Button
-                    title="Зареєстуватися"
-                    fontSize='16'
-                    color="#fff"
-                    color='#212121'
-                    backgroundColor='#FF6C00'
-                    borderColor='#E8E8E8'
-                    borderRadius='4'
-                    borderWidth='1'
-              /> */}
-              {/* <TouchableHighlight>
-              <Text style={styles.text}>Вже є акаунт? Увійти</Text>  
-              </TouchableHighlight>     */}
-                  {/* <StatusBar style="auto" /> */}
-              {/* </KeyboardAvoidingView> */}
-            </View>       
-          </ImageBackground>
-        </KeyboardAvoidingView>
-      </View>
-    </TouchableWithoutFeedback>
+          </View> 
+        </View>
+      </ImageBackground>
+    
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: '100%',
+    justifyContent: "flex-end",
+    // flex: 1,
   // backgroundColor: '#fff',
     // alignItems: 'center',
   // justifyContent: 'center',
@@ -83,25 +78,38 @@ const styles = StyleSheet.create({
    },
   registrationWrap: {
     backgroundColor: '#fff',
-    marginTop: 163,
-    paddingBottom: 79,
+    // marginTop: 163,
+    // paddingBottom: 79,
     paddingLeft: 16,
     paddingRight: 16,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    alignItems: 'stretch',
-    // flexDirection: column,
-    
+    alignItems: 'stretch',   
+    // justifyContent: "flex-end", 
   },
-  // background: {
-  //   flex: 1,
-  //   justifyContent: 'flex-end',
-  // },
+
+  background: {
+    // flex: 1,
+    height: '100%',
+    justifyContent: 'flex-end',
+  },
+
+
   image: {
+    flex: 1,
     width: 132,
+    height: 132,
     marginTop: -60,  
     alignSelf: 'center', 
+    position: 'absolute',
+    marginBottom: 30,
   },
+  buttonAdd: {
+    // position: 'absolute',
+    marginTop: 21,
+    marginLeft: 245,
+  },
+
   title: {
     fontSize: 30,
     color: '#212121',
@@ -111,13 +119,17 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 50,
-    // color: '#F6F6F6',
     color: '#212121',
     borderColor: '#E8E8E8',
     borderRadius: 6,
     borderWidth: 1,
     marginBottom: 16,
     paddingLeft: 16,    
+  },
+  btnWrap: {
+    backgroundColor: '#fff',
+    paddingLeft: 16,
+    paddingRight: 16,
   },
   buttonRegistration: {
     backgroundColor: '#FF6C00',
@@ -138,6 +150,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#1B4371',
     textAlign: 'center',
+    paddingBottom: 79,
   },
     
 });

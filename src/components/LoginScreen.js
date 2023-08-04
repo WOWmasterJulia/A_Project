@@ -14,13 +14,12 @@ export default function Login() {
     return (
     
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <ImageBackground source={Background} resizeMode="cover" style={styles.Background}> 
         <View style={styles.container}>
             <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
                     behavior={Platform.OS === "ios" ? "padding" : "height"}
                     // style={{ flex: 1 }}
                 >
-                <ImageBackground source={Background} resizeMode="cover" style={styles.Background}> 
-                
                 <View style={styles.loginWrap}>
                 {/* <Image source={require('../assets_new/photos/Add_Ava.png')} resizeMode="cover" style={styles.image}></Image> */}
                     <Text style={styles.title}>Увійти</Text>
@@ -41,25 +40,27 @@ export default function Login() {
                         <Text style={styles.text}>Немає акаунту? Зареєструватися</Text>
                     </Pressable>
                 </View>
-                    </ImageBackground> 
-            </KeyboardAvoidingView>    
-        </View>
+              </KeyboardAvoidingView>    
+          </View>
+        </ImageBackground> 
     </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    height: '100%',
+    justifyContent: "flex-end",
         // flex: 1,      
     // backgroundColor: '#fff',
     // alignItems: 'center',
     // justifyContent: 'center',
-    // justifyContent: "flex-end",
+    
     // paddingBottom: 30,
  },
   loginWrap: {
     backgroundColor: '#fff',
-    marginTop: 263,
+    // marginTop: 263,
     paddingBottom: 79,
     paddingLeft: 16,
     paddingRight: 16,
