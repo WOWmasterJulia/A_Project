@@ -14,107 +14,106 @@ export default function Registration() {
 const navigation = useNavigation();
   
   return (
-    
-      <ImageBackground source={Background} resizeMode="cover" style={styles.background}> 
-        <View style={styles.container}>
-         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
-            behavior={Platform.OS === "ios" ? "padding" : "height"}>
-          
-        <View>
-          <View style={styles.Wrap}>
-            <Image source={require('../assets_new/photos/Add_Ava.png')} resizeMode="cover" style={styles.image}></Image>
-            <Pressable style={styles.buttonAdd}
-              onPress={() => navigation.navigate("Text")}>
-              <Image source={require('../assets_new/icons/add.png')}style={styles.btnAdd}></Image> 
-            </Pressable>
-          </View>
-          
-          <View style={styles.registrationWrap}>
-            <Text style={styles.title}>Реєстрація</Text>
-            <View style={styles.inputsWrap}>
-                <TextInput style={styles.input} placeholder="Логін"
-                value={login}
-                onChangeText={setLogin}/>
-                <TextInput style={styles.input} placeholder="Адреса електронної пошти"
-                value={email}
-                onChangeText={setEmail}/> 
-                <TextInput style={styles.input} placeholder="Пароль"
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry={true} />
-            </View> 
-          </View>
-        </View>
-          </KeyboardAvoidingView>
-          </TouchableWithoutFeedback>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}> 
+      <View style={styles.container}>
+        <ImageBackground source={Background} resizeMode="cover" style={styles.imageBackground}> 
+          <View style={styles.generalWrap}>
+                       
+              
+              <View style={styles.registrationWrap}>
+              <Text style={styles.title}>Реєстрація</Text>
+              <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
+                behavior={Platform.OS == "ios" ? "padding" : "height"}>
+                <View style={styles.inputsWrap}>
+                    <TextInput style={styles.input} placeholder="Логін"
+                    value={login}
+                    onChangeText={setLogin}/>
+                    <TextInput style={styles.input} placeholder="Адреса електронної пошти"
+                    value={email}
+                    onChangeText={setEmail}/> 
+                    <TextInput style={styles.input} placeholder="Пароль"
+                    value={password}
+                    onChangeText={setPassword}
+                    secureTextEntry={true} />
+                    <Pressable style={styles.buttonSee}
+                    onPress={() => navigation.navigate("Login")}>
+                    <Text style={styles.text}>Показати</Text>
+                  </Pressable>
+                </View> 
+              </KeyboardAvoidingView>
 
-          <View style={styles.btnWrap}>
-              <Pressable style={styles.buttonRegistration}
-                onPress={() => navigation.navigate("Posts")}>
-                <Text style={styles.btnReg}>Зареєстуватися</Text>
-              </Pressable>
-              <Pressable style={styles.buttonEntrance}
-                onPress={() => navigation.navigate("Login")}>
-                <Text style={styles.text}>Вже є акаунт? Увійти</Text>
-              </Pressable>
-          </View> 
+              <View style={styles.imageWrap}>
+                <Image source={require('../assets_new/photos/Add_Ava.png')} resizeMode="cover" style={styles.image}></Image>
+                <Pressable style={styles.buttonAdd}
+                  onPress={() => navigation.navigate("Text")}>
+                  <Image source={require('../assets_new/icons/add.png')}style={styles.btnAdd}></Image> 
+                </Pressable>
+              </View> 
+          
+              <View style={styles.btnWrap}>
+                  <Pressable style={styles.buttonRegistration}
+                    onPress={() => navigation.navigate("Posts")}>
+                    <Text style={styles.btnReg}>Зареєстуватися</Text>
+                  </Pressable>
+                  <Pressable style={styles.buttonEntrance}
+                    onPress={() => navigation.navigate("Login")}>
+                    <Text style={styles.text}>Вже є акаунт? Увійти</Text>
+                  </Pressable>
+              </View>
+          </View>
         </View>
       </ImageBackground>
+    </View>
     
+  </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
-    justifyContent: "flex-end",
-    // flex: 1,
-  // backgroundColor: '#fff',
-    // alignItems: 'center',
-  // justifyContent: 'center',
+    // height: '100%',
     // justifyContent: "flex-end",
-    // paddingBottom: 30,
+    // flex: 1,
    },
   registrationWrap: {
     backgroundColor: '#fff',
-    // marginTop: 163,
-    // paddingBottom: 79,
+    paddingTop: 92,
     paddingLeft: 16,
     paddingRight: 16,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     alignItems: 'stretch',   
-    // justifyContent: "flex-end", 
   },
-
-  background: {
-    // flex: 1,
+  
+  imageBackground: {
     height: '100%',
     justifyContent: 'flex-end',
   },
-
-
+  imageWrap: {
+    position: 'absolute',
+    alignSelf: 'center', 
+    marginTop: -60,
+  },
   image: {
-    flex: 1,
+    // flex: 1,
+    // zIndex: 100,
     width: 132,
     height: 132,
-    marginTop: -60,  
+    // marginTop: -30,  
     alignSelf: 'center', 
     position: 'absolute',
-    marginBottom: 30,
+    // marginBottom: 30,
   },
   buttonAdd: {
     // position: 'absolute',
-    marginTop: 21,
-    marginLeft: 245,
+    marginTop: 80,
+    marginLeft: 130,
   },
 
   title: {
     fontSize: 30,
     color: '#212121',
     textAlign: 'center',
-    marginTop: 32,
     marginBottom: 33,
   },
   input: {
@@ -126,11 +125,12 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     paddingLeft: 16,    
   },
-  btnWrap: {
-    backgroundColor: '#fff',
-    paddingLeft: 16,
-    paddingRight: 16,
+  buttonSee: {
+    position: 'absolute',
+    marginLeft: 280,
+    marginTop: 145,
   },
+
   buttonRegistration: {
     backgroundColor: '#FF6C00',
     borderRadius: 100,

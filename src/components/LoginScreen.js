@@ -51,16 +51,9 @@ const styles = StyleSheet.create({
   container: {
     height: '100%',
     justifyContent: "flex-end",
-        // flex: 1,      
-    // backgroundColor: '#fff',
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    
-    // paddingBottom: 30,
  },
   loginWrap: {
     backgroundColor: '#fff',
-    // marginTop: 263,
     paddingBottom: 79,
     paddingLeft: 16,
     paddingRight: 16,
@@ -68,11 +61,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     alignItems: 'stretch',
   },
-//   image: {
-//     width: 132,
-//     marginTop: -60,  
-//     alignSelf: 'center', 
-//   },
+
   title: {
     fontSize: 30,
     color: '#212121',
@@ -82,7 +71,6 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 50,
-    // color: '#F6F6F6',
     color: '#212121',
     borderColor: '#E8E8E8',
     borderRadius: 6,
