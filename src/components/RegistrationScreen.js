@@ -3,6 +3,7 @@ import {
   StyleSheet,
   ImageBackground,
   Image,
+  Alert,
   Text,
   TextInput,
   View,
@@ -38,76 +39,79 @@ export default function Registration() {
             keyboardVerticalOffset={-150}
             // style={{ flex: 1 }}
           >
-            <View style={styles.loginWrap}>
-              <View style={styles.generalWrap}>
-                <View style={styles.registrationWrap}>
-                  <Text style={styles.title}>Реєстрація</Text>
-                  <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
-                    behavior={Platform.OS == "ios" ? "padding" : "height"}
-                  >
-                    <View style={styles.inputsWrap}>
-                      <TextInput
-                        style={styles.input}
-                        placeholder="Логін"
-                        value={login}
-                        onChangeText={setLogin}
-                      />
-                      <TextInput
-                        style={styles.input}
-                        placeholder="Адреса електронної пошти"
-                        value={email}
-                        onChangeText={setEmail}
-                      />
-                      <View>
-                        <TextInput
-                          style={styles.input}
-                          placeholder="Пароль"
-                          value={password}
-                          onChangeText={setPassword}
-                          secureTextEntry={true}
-                        />
-                        <Pressable
-                          style={styles.buttonSee}
-                          onPress={() => alert(1)}
-                        >
-                          <Text style={styles.text}>Показати</Text>
-                        </Pressable>
-                      </View>
-                    </View>
-                  </KeyboardAvoidingView>
-                  <View style={styles.imageWrap}>
-                    <Image
-                      source={require("../assets_new/photos/Add_Ava.png")}
-                      resizeMode="cover"
-                      style={styles.image}
-                    ></Image>
+            {/* <View style={styles.loginWrap}>
+              <View style={styles.generalWrap}> */}
+            <View style={styles.registrationWrap}>
+              <Text style={styles.title}>Реєстрація</Text>
+
+              <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
+                behavior={Platform.OS == "ios" ? "padding" : "height"}
+              >
+                <View style={styles.inputsWrap}>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Логін"
+                    value={login}
+                    onChangeText={setLogin}
+                  />
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Адреса електронної пошти"
+                    value={email}
+                    onChangeText={setEmail}
+                  />
+                  <View>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Пароль"
+                      value={password}
+                      onChangeText={setPassword}
+                      secureTextEntry={true}
+                    />
                     <Pressable
-                      style={styles.buttonAdd}
-                      onPress={() => navigation.navigate("Text")}
+                      style={styles.buttonSee}
+                      onPress={() => alert(1)}
                     >
-                      <Image
-                        source={require("../assets_new/icons/add.png")}
-                        style={styles.btnAdd}
-                      ></Image>
-                    </Pressable>
-                  </View>
-                  <View style={styles.btnWrap}>
-                    <Pressable
-                      style={styles.buttonRegistration}
-                      onPress={() => navigation.navigate("Posts")}
-                    >
-                      <Text style={styles.btnReg}>Зареєстуватися</Text>
-                    </Pressable>
-                    <Pressable
-                      style={styles.buttonEntrance}
-                      onPress={() => navigation.navigate("Login")}
-                    >
-                      <Text style={styles.text}>Вже є акаунт? Увійти</Text>
+                      <Text style={styles.text}>Показати</Text>
                     </Pressable>
                   </View>
                 </View>
+              </KeyboardAvoidingView>
+
+              <View style={styles.imageWrap}>
+                <Image
+                  source={require("../assets_new/photos/Add_Ava.png")}
+                  resizeMode="cover"
+                  style={styles.image}
+                ></Image>
+                <Pressable
+                  style={styles.buttonAdd}
+                  onPress={() => Alert.alert("Take a picture for avatar!")}
+                >
+                  <Image
+                    source={require("../assets_new/icons/add.png")}
+                    style={styles.btnAdd}
+                  ></Image>
+                </Pressable>
+              </View>
+
+              <View style={styles.btnWrap}>
+                <Pressable
+                  style={styles.buttonRegistration}
+                  onPress={() => navigation.navigate("Posts")}
+                >
+                  <Text style={styles.btnReg}>Зареєстуватися</Text>
+                </Pressable>
+                <Pressable
+                  style={styles.buttonEntrance}
+                  onPress={() => navigation.navigate("Login")}
+                >
+                  <Text style={styles.text}>Вже є акаунт? Увійти</Text>
+                </Pressable>
               </View>
             </View>
+            {/* </View>
+            </View> */}
           </KeyboardAvoidingView>
         </View>
       </TouchableWithoutFeedback>

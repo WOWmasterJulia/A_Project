@@ -1,5 +1,18 @@
 import React, {useState} from 'react';
-import { StyleSheet, ImageBackground, Image, Text, TextInput, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Pressable } from 'react-native';
+import {
+  StyleSheet,
+  ImageBackground,
+  Image,
+  Alert,
+  Text,
+  TextInput,
+  View,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Pressable,
+} from "react-native";
 import Background from '../assets_new/photos/Photo_BG.png';
 import { useNavigation } from '@react-navigation/native';
 
