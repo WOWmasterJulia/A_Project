@@ -22,18 +22,23 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   const navigation = useNavigation();
-
+  const onLogin = () => {
+    Alert.alert('Email and Password :',`${email} and ${password}`);
+    // navigation.navigate("Home");
+  }
 
   return (
     <ImageBackground
       source={Background}
       resizeMode="cover"
-      style={styles.Background}>
+      style={styles.Background}
+    >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
           <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
             behavior={Platform.OS === "ios" ? "padding" : "height"}
-            keyboardVerticalOffset={-50}>
+            keyboardVerticalOffset={-50}
+          >
             <View style={styles.loginWrap}>
               {/* <Image source={require('../assets_new/photos/Add_Ava.png')} resizeMode="cover" style={styles.image}></Image> */}
               <Text style={styles.title}>Увійти</Text>
@@ -52,7 +57,8 @@ export default function Login() {
               />
               <Pressable
                 style={styles.buttonLogin}
-                onPress={() => navigation.navigate("Registration")}
+                // onPress={() => navigation.navigate("Registration")}
+                onPress={onLogin}
               >
                 <Text style={styles.btnLog}>Увійти</Text>
               </Pressable>
