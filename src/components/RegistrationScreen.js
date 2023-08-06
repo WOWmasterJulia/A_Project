@@ -118,10 +118,7 @@ export default function Registration() {
 
 const styles = StyleSheet.create({
   container: {
-    // height: '100%',
-    // justifyContent: "flex-end",
     // flex: 1,
-
     height: "100%",
     justifyContent: "flex-end",
   },
@@ -145,14 +142,10 @@ const styles = StyleSheet.create({
     marginTop: -60,
   },
   image: {
-    // flex: 1,
-    // zIndex: 100,
     width: 132,
     height: 132,
-    // marginTop: -30,
     alignSelf: "center",
     position: "absolute",
-    // marginBottom: 30,
   },
   buttonAdd: {
     // position: 'absolute',
@@ -179,7 +172,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     // marginLeft: 280,
     // marginTop: 145,
-
     right: 15,
     top: 15,
   },
