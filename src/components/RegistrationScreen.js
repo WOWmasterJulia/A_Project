@@ -1,175 +1,118 @@
-import React, {useState} from 'react';
-import { StyleSheet, ImageBackground, Image, Text, TextInput, View, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Button, TouchableHighlight, Pressable } from 'react-native';
-import Background from '../assets_new/photos/Photo_BG.png';
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  ImageBackground,
+  Image,
+  Text,
+  TextInput,
+  View,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Button,
+  TouchableHighlight,
+  Pressable,
+} from "react-native";
+import Background from "../assets_new/photos/Photo_BG.png";
 
-import { useNavigation } from '@react-navigation/native';
-
-
+import { useNavigation } from "@react-navigation/native";
 
 export default function Registration() {
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-const navigation = useNavigation();
-  
-  // return (
-  //   <TouchableWithoutFeedback onPress={Keyboard.dismiss}> 
-  //     <View style={styles.container}>
-  //       <ImageBackground source={Background} resizeMode="cover" style={styles.imageBackground}> 
-  //         <View style={styles.generalWrap}>
-                       
-              
-  //             <View style={styles.registrationWrap}>
-  //             <Text style={styles.title}>Реєстрація</Text>
-  //             <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
-  //               behavior={Platform.OS == "ios" ? "padding" : "height"}>
-  //               <View style={styles.inputsWrap}>
-  //                   <TextInput style={styles.input} placeholder="Логін"
-  //                   value={login}
-  //                   onChangeText={setLogin}/>
-  //                   <TextInput style={styles.input} placeholder="Адреса електронної пошти"
-  //                   value={email}
-  //                   onChangeText={setEmail}/> 
-  //                   <TextInput style={styles.input} placeholder="Пароль"
-  //                   value={password}
-  //                   onChangeText={setPassword}
-  //                   secureTextEntry={true} />
-  //                   <Pressable style={styles.buttonSee}
-  //                   onPress={() => navigation.navigate("Login")}>
-  //                   <Text style={styles.text}>Показати</Text>
-  //                 </Pressable>
-  //               </View> 
-  //             </KeyboardAvoidingView>
+  const navigation = useNavigation();
 
-  //             <View style={styles.imageWrap}>
-  //               <Image source={require('../assets_new/photos/Add_Ava.png')} resizeMode="cover" style={styles.image}></Image>
-  //               <Pressable style={styles.buttonAdd}
-  //                 onPress={() => navigation.navigate("Text")}>
-  //                 <Image source={require('../assets_new/icons/add.png')}style={styles.btnAdd}></Image> 
-  //               </Pressable>
-  //             </View> 
-          
-  //             <View style={styles.btnWrap}>
-  //                 <Pressable style={styles.buttonRegistration}
-  //                   onPress={() => navigation.navigate("Posts")}>
-  //                   <Text style={styles.btnReg}>Зареєстуватися</Text>
-  //                 </Pressable>
-  //                 <Pressable style={styles.buttonEntrance}
-  //                   onPress={() => navigation.navigate("Login")}>
-  //                   <Text style={styles.text}>Вже є акаунт? Увійти</Text>
-  //                 </Pressable>
-  //             </View>
-  //         </View>
-  //       </View>
-  //     </ImageBackground>
-  //   </View>
-    
-  // </TouchableWithoutFeedback>
-  // );
-   return (
-        <ImageBackground
-            source={Background}
-            resizeMode="cover"
-            style={styles.Background}>
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View style={styles.container}>
-                    <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
-                        behavior={Platform.OS === "ios" ? "padding" : "height"}
-                        keyboardVerticalOffset={-150}
-                        // style={{ flex: 1 }}
+  return (
+    <ImageBackground
+      source={Background}
+      resizeMode="cover"
+      style={styles.Background}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            keyboardVerticalOffset={-150}
+            // style={{ flex: 1 }}
+          >
+            <View style={styles.loginWrap}>
+              <View style={styles.generalWrap}>
+                <View style={styles.registrationWrap}>
+                  <Text style={styles.title}>Реєстрація</Text>
+                  <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
+                    behavior={Platform.OS == "ios" ? "padding" : "height"}
+                  >
+                    <View style={styles.inputsWrap}>
+                      <TextInput
+                        style={styles.input}
+                        placeholder="Логін"
+                        value={login}
+                        onChangeText={setLogin}
+                      />
+                      <TextInput
+                        style={styles.input}
+                        placeholder="Адреса електронної пошти"
+                        value={email}
+                        onChangeText={setEmail}
+                      />
+                      <View>
+                        <TextInput
+                          style={styles.input}
+                          placeholder="Пароль"
+                          value={password}
+                          onChangeText={setPassword}
+                          secureTextEntry={true}
+                        />
+                        <Pressable
+                          style={styles.buttonSee}
+                          onPress={() => alert(1)}
+                        >
+                          <Text style={styles.text}>Показати</Text>
+                        </Pressable>
+                      </View>
+                    </View>
+                  </KeyboardAvoidingView>
+                  <View style={styles.imageWrap}>
+                    <Image
+                      source={require("../assets_new/photos/Add_Ava.png")}
+                      resizeMode="cover"
+                      style={styles.image}
+                    ></Image>
+                    <Pressable
+                      style={styles.buttonAdd}
+                      onPress={() => navigation.navigate("Text")}
                     >
-                        <View style={styles.loginWrap}>
-                            <View style={styles.generalWrap}>
-                                <View style={styles.registrationWrap}>
-                                    <Text style={styles.title}>Реєстрація</Text>
-                                    <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
-                                        behavior={
-                                            Platform.OS == "ios"
-                                                ? "padding"
-                                                : "height"
-                                        }
-                                    >
-                                        <View style={styles.inputsWrap}>
-                                            <TextInput
-                                                style={styles.input}
-                                                placeholder="Логін"
-                                                value={login}
-                                                onChangeText={setLogin}
-                                            />
-                                            <TextInput
-                                                style={styles.input}
-                                                placeholder="Адреса електронної пошти"
-                                                value={email}
-                                                onChangeText={setEmail}
-                                            />
-                                            <View>
-                                                <TextInput
-                                                    style={styles.input}
-                                                    placeholder="Пароль"
-                                                    value={password}
-                                                    onChangeText={setPassword}
-                                                    secureTextEntry={true}
-                                                />
-                                                <Pressable
-                                                    style={styles.buttonSee}
-                                                    onPress={() => alert(1)}
-                                                >
-                                                    <Text style={styles.text}>
-                                                        Показати
-                                                    </Text>
-                                                </Pressable>
-                                            </View>
-                                        </View>
-                                    </KeyboardAvoidingView>
-                                    <View style={styles.imageWrap}>
-                                        <Image
-                                            source={require("../assets_new/photos/Add_Ava.png")}
-                                            resizeMode="cover"
-                                            style={styles.image}
-                                        ></Image>
-                                        <Pressable
-                                            style={styles.buttonAdd}
-                                            onPress={() =>
-                                                navigation.navigate("Text")
-                                            }
-                                        >
-                                            <Image
-                                                source={require("../assets_new/icons/add.png")}
-                                                style={styles.btnAdd}
-                                            ></Image>
-                                        </Pressable>
-                                    </View>
-                                    <View style={styles.btnWrap}>
-                                        <Pressable
-                                            style={styles.buttonRegistration}
-                                            onPress={() =>
-                                                navigation.navigate("Posts")
-                                            }
-                                        >
-                                            <Text style={styles.btnReg}>
-                                                Зареєстуватися
-                                            </Text>
-                                        </Pressable>
-                                        <Pressable
-                                            style={styles.buttonEntrance}
-                                            onPress={() =>
-                                                navigation.navigate("Login")
-                                            }
-                                        >
-                                            <Text style={styles.text}>
-                                                Вже є акаунт? Увійти
-                                            </Text>
-                                        </Pressable>
-                                    </View>
-                                </View>
-                            </View>
-                        </View>
-                    </KeyboardAvoidingView>
+                      <Image
+                        source={require("../assets_new/icons/add.png")}
+                        style={styles.btnAdd}
+                      ></Image>
+                    </Pressable>
+                  </View>
+                  <View style={styles.btnWrap}>
+                    <Pressable
+                      style={styles.buttonRegistration}
+                      onPress={() => navigation.navigate("Posts")}
+                    >
+                      <Text style={styles.btnReg}>Зареєстуватися</Text>
+                    </Pressable>
+                    <Pressable
+                      style={styles.buttonEntrance}
+                      onPress={() => navigation.navigate("Login")}
+                    >
+                      <Text style={styles.text}>Вже є акаунт? Увійти</Text>
+                    </Pressable>
+                  </View>
                 </View>
-            </TouchableWithoutFeedback>
-        </ImageBackground>
-    );
+              </View>
+            </View>
+          </KeyboardAvoidingView>
+        </View>
+      </TouchableWithoutFeedback>
+    </ImageBackground>
+  );
 }
 // }
 
