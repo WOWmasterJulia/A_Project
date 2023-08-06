@@ -20,8 +20,6 @@ export default function Posts() {
 const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      {/* <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
-            behavior={Platform.OS === "ios" ? "padding" : "height"}> */}
       <View style={styles.header}>
         <Text style={styles.title}>Публікації</Text>
         <Pressable
@@ -48,8 +46,6 @@ const navigation = useNavigation();
         onPress={() => navigation.navigate("Login")}>
         <Text style={styles.btnText}>Змінити аккаунт через логін</Text>
       </Pressable> */}
-
-      {/* </KeyboardAvoidingView>       */}
     </View>
   );
 };
