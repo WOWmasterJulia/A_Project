@@ -15,8 +15,7 @@ export default function Login() {
     <ImageBackground
       source={Background}
       resizeMode="cover"
-      style={styles.Background}
-    >
+      style={styles.Background}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
           <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
