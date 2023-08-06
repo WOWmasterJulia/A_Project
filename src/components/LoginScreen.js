@@ -11,39 +11,52 @@ export default function Login() {
   const navigation = useNavigation();
 
 
-    return (
-    
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ImageBackground source={Background} resizeMode="cover" style={styles.Background}> 
+  return (
+    <ImageBackground
+      source={Background}
+      resizeMode="cover"
+      style={styles.Background}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-            <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
-                    behavior={Platform.OS === "ios" ? "padding" : "height"}
-                    // style={{ flex: 1 }}
-                >
-                <View style={styles.loginWrap}>
-                {/* <Image source={require('../assets_new/photos/Add_Ava.png')} resizeMode="cover" style={styles.image}></Image> */}
-                    <Text style={styles.title}>Увійти</Text>
-                    <TextInput style={styles.input} placeholder="Адреса електронної пошти"
-                    value={email}
-                    onChangeText={setEmail}/> 
-                    <TextInput style={styles.input} placeholder="Пароль"
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry={true}
-                    />        
-                    <Pressable style={styles.buttonLogin}
-                        onPress={() => navigation.navigate("Registration")}>
-                        <Text style={styles.btnLog}>Увійти</Text>
-                    </Pressable>
-                    <Pressable style={styles.buttonEntrance}
-                        onPress={() => navigation.navigate("Registration")}>
-                        <Text style={styles.text}>Немає акаунту? Зареєструватися</Text>
-                    </Pressable>
-                </View>
-              </KeyboardAvoidingView>    
-          </View>
-        </ImageBackground> 
-    </TouchableWithoutFeedback>
+          <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            keyboardVerticalOffset={-50}
+            // style={{ flex: 1 }}
+          >
+            <View style={styles.loginWrap}>
+              {/* <Image source={require('../assets_new/photos/Add_Ava.png')} resizeMode="cover" style={styles.image}></Image> */}
+              <Text style={styles.title}>Увійти</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Адреса електронної пошти"
+                value={email}
+                onChangeText={setEmail}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Пароль"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry={true}
+              />
+              <Pressable
+                style={styles.buttonLogin}
+                onPress={() => navigation.navigate("Registration")}
+              >
+                <Text style={styles.btnLog}>Увійти</Text>
+              </Pressable>
+              <Pressable
+                style={styles.buttonEntrance}
+                onPress={() => navigation.navigate("Registration")}
+              >
+                <Text style={styles.text}>Немає акаунту? Зареєструватися</Text>
+              </Pressable>
+            </View>
+          </KeyboardAvoidingView>
+        </View>
+      </TouchableWithoutFeedback>
+    </ImageBackground>
   );
 }
 
