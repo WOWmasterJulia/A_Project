@@ -25,8 +25,9 @@ const navigation = useNavigation();
       <View style={styles.header}>
         <Text style={styles.title}>Публікації</Text>
         <Pressable
-          style={styles.pressLogoff}
-          onPress={() => navigation.navigate("Login")}>
+          style={styles.logOut}
+          onPress={() => navigation.navigate("Login")}
+        >
           <Image source={require("../assets_new/icons/log-out.png")} />
         </Pressable>
       </View>
@@ -34,23 +35,19 @@ const navigation = useNavigation();
         <Image
           source={require("../assets_new/photos/Ava.png")}
           resizeMode="cover"
-          style={styles.image}></Image>
+          style={styles.image}
+        ></Image>
         <View style={styles.userInfotWrap}>
           <Text style={styles.name}>Natali Romanova</Text>
           <Text style={styles.email}>email@example.com</Text>
         </View>
       </View>
 
-      {/* <Pressable style={styles.buttonRegistration}
-                        onPress={() => navigation.navigate("Posts")}>
-                        <Text style={styles.btnReg}>Зареєстуватися</Text>
-                    </Pressable> */}
-      <Pressable
+      {/* <Pressable
         style={styles.button}
-        onPress={() => navigation.navigate("Login")}
-      >
+        onPress={() => navigation.navigate("Login")}>
         <Text style={styles.btnText}>Змінити аккаунт через логін</Text>
-      </Pressable>
+      </Pressable> */}
 
       {/* </KeyboardAvoidingView>       */}
     </View>
@@ -81,7 +78,7 @@ const styles = StyleSheet.create({
     // alignSelf: 'center',
     // justifyContent: 'center',
   },
-  pressLogoff: {
+  logOut: {
     alignSelf: "center",
     marginLeft: 120,
     paddingRight: 10,
@@ -122,19 +119,19 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: "#212121",
   },
-  button: {
-    backgroundColor: "#FF6C00",
-    borderRadius: 100,
-    marginTop: 27,
-    marginBottom: 16,
-    paddingTop: 16,
-    paddingBottom: 16,
-    paddingLeft: 32,
-    paddingRight: 32,
-  },
-  btnText: {
-    fontSize: 16,
-    color: "#fff",
-    textAlign: "center",
-  },
+  // button: {
+  //   backgroundColor: "#FF6C00",
+  //   borderRadius: 100,
+  //   marginTop: 27,
+  //   marginBottom: 16,
+  //   paddingTop: 16,
+  //   paddingBottom: 16,
+  //   paddingLeft: 32,
+  //   paddingRight: 32,
+  // },
+  // btnText: {
+  //   fontSize: 16,
+  //   color: "#fff",
+  //   textAlign: "center",
+  // },
 });
