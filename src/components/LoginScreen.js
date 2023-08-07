@@ -23,9 +23,13 @@ export default function Login() {
 
   const navigation = useNavigation();
   const onLogin = () => {
-    Alert.alert('Email and Password :',`${email} and ${password}`);
+    console.log({ email, password });
+    Alert.alert("Email and Password :", `${email} and ${password}`);
     // navigation.navigate("Home");
     navigation.navigate("Posts");
+    // очищення форми
+    setEmail("");
+    setPassword("");
   }
 
   return (

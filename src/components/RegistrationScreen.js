@@ -26,11 +26,21 @@ export default function Registration() {
 
   const navigation = useNavigation();
 
+  // отримання даних з форми
   const newRegistration = () => {
-    Alert.alert("Login, Email and Password :", `${login} ${email} and ${password}`);
+    console.log({ login, email, password });
+    Alert.alert(
+      "Login, Email and Password :",
+      `${login}, ${email} and ${password}`
+    );
     // navigation.navigate("Home");
     navigation.navigate("Posts");
+    // очищення форми
+    setLogin("");
+    setEmail("");
+    setPassword(""); 
   };
+
   return (
     <ImageBackground
       source={Background}
