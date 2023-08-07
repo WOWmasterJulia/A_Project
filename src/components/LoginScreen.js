@@ -77,7 +77,10 @@ export default function Login() {
                 style={styles.buttonEntrance}
                 onPress={() => navigation.navigate("Registration")}
               >
-                <Text style={styles.text}>Немає акаунту? Зареєструватися</Text>
+                <View style={styles.textWrap}>
+                  <Text style={styles.text}>Немає акаунту?</Text>
+                  <Text style={styles.textLine}>Зареєструватися</Text>
+                </View>
               </Pressable>
             </View>
           </KeyboardAvoidingView>
@@ -147,5 +150,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#1B4371",
     textAlign: "center",
+  },
+  textWrap: {
+    alignItems: "center",
+    // alignSelf: "flex-start",
+    justifyContent: "center",
+    gap: 8,
+    flexDirection: "row",
+  },
+  textLine: {
+    fontSize: 16,
+    color: "#1B4371",
+    textAlign: "center",
+    textDecorationLine: "underline",
   },
 });
