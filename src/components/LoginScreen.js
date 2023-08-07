@@ -25,13 +25,14 @@ export default function Login() {
   const onLogin = () => {
     Alert.alert('Email and Password :',`${email} and ${password}`);
     // navigation.navigate("Home");
+    navigation.navigate("Posts");
   }
 
   return (
     <ImageBackground
       source={Background}
       resizeMode="cover"
-      style={styles.Background}
+      style={styles.imageBackground}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
@@ -84,6 +85,10 @@ export default function Login() {
 
 const styles = StyleSheet.create({
   container: {
+    height: "100%",
+    justifyContent: "flex-end",
+  },
+  imageBackground: {
     height: "100%",
     justifyContent: "flex-end",
   },

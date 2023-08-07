@@ -26,6 +26,11 @@ export default function Registration() {
 
   const navigation = useNavigation();
 
+  const newRegistration = () => {
+    Alert.alert("Login, Email and Password :", `${login} ${email} and ${password}`);
+    // navigation.navigate("Home");
+    navigation.navigate("Posts");
+  };
   return (
     <ImageBackground
       source={Background}
@@ -98,7 +103,8 @@ export default function Registration() {
               <View style={styles.btnWrap}>
                 <Pressable
                   style={styles.buttonRegistration}
-                  onPress={() => navigation.navigate("Posts")}
+                  // onPress={() => navigation.navigate("Posts")}
+                  onPress={newRegistration}
                 >
                   <Text style={styles.btnReg}>Зареєстуватися</Text>
                 </Pressable>
