@@ -16,18 +16,19 @@ import {
 import Background from '../assets_new/photos/Photo_BG.png';
 import { useNavigation } from '@react-navigation/native';
 
-export default function Login() { 
-
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigation = useNavigation();
-
+  
+  //Показати та сховати пароль
   const [secureTextEntry, setSecureTextEntry] = useState(true);
   const togglePassword = () => {
     setSecureTextEntry(!secureTextEntry);
   };
 
+  // отримання даних з форми
   const onLogin = () => {
     console.log({ email, password });
     Alert.alert("Email and Password :", `${email} and ${password}`);
@@ -36,7 +37,7 @@ export default function Login() {
     // очищення форми
     setEmail("");
     setPassword("");
-  }
+  };
 
   return (
     <ImageBackground

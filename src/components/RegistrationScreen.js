@@ -25,13 +25,12 @@ export default function Registration() {
   const [password, setPassword] = useState("");
 
   const navigation = useNavigation();
-
+  //Показати та сховати пароль
   const [secureTextEntry, setSecureTextEntry] = useState(true);
   const togglePassword = () => {
     setSecureTextEntry(!secureTextEntry);
   };
   // const [isOpenKeyboard, setIsOpenKeyboard] = useState(false);
-
 
   // отримання даних з форми
   const newRegistration = () => {
@@ -45,7 +44,7 @@ export default function Registration() {
     // очищення форми
     setLogin("");
     setEmail("");
-    setPassword(""); 
+    setPassword("");
   };
 
   return (
