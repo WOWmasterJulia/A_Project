@@ -30,7 +30,7 @@ export default function Registration() {
   const togglePassword = () => {
     setSecureTextEntry(!secureTextEntry);
   };
-  // const [isOpenKeyboard, setIsOpenKeyboard] = useState(false);
+  
 
   // отримання даних з форми
   const newRegistration = () => {
@@ -74,8 +74,6 @@ export default function Registration() {
                     placeholder="Логін"
                     value={login}
                     onChangeText={setLogin}
-                    // onFocus={() => setIsOpenKeyboard(true)}
-                    // onBlur={() => setIsOpenKeyboard(false)}
                   />
                   <TextInput
                     style={styles.input}
