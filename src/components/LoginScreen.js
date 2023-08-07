@@ -48,13 +48,19 @@ export default function Login() {
                 value={email}
                 onChangeText={setEmail}
               />
-              <TextInput
-                style={styles.input}
-                placeholder="Пароль"
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry={true}
-              />
+              <View>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Пароль"
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry={true}
+                />
+                <Pressable style={styles.buttonSee} onPress={() => alert(1)}>
+                  <Text style={styles.text}>Показати</Text>
+                </Pressable>
+              </View>
+
               <Pressable
                 style={styles.buttonLogin}
                 // onPress={() => navigation.navigate("Registration")}
@@ -78,54 +84,59 @@ export default function Login() {
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
+    height: "100%",
     justifyContent: "flex-end",
- },
+  },
   loginWrap: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     paddingBottom: 79,
     paddingLeft: 16,
     paddingRight: 16,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    alignItems: 'stretch',
+    alignItems: "stretch",
   },
 
   title: {
     fontSize: 30,
-    color: '#212121',
-    textAlign: 'center',
+    color: "#212121",
+    textAlign: "center",
     marginTop: 32,
     marginBottom: 33,
   },
   input: {
     height: 50,
-    color: '#212121',
-    borderColor: '#E8E8E8',
+    color: "#212121",
+    borderColor: "#E8E8E8",
     borderRadius: 6,
     borderWidth: 1,
     marginBottom: 16,
-    paddingLeft: 16,    
+    paddingLeft: 16,
+  },
+
+  buttonSee: {
+    position: "absolute",
+    right: 15,
+    top: 15,
   },
   buttonLogin: {
-    backgroundColor: '#FF6C00',
+    backgroundColor: "#FF6C00",
     borderRadius: 100,
     marginTop: 27,
     marginBottom: 16,
     paddingTop: 16,
     paddingBottom: 16,
     paddingLeft: 32,
-    paddingRight: 32,   
+    paddingRight: 32,
   },
   btnLog: {
     fontSize: 16,
     color: "#fff",
-    textAlign: 'center',
+    textAlign: "center",
   },
   text: {
     fontSize: 16,
-    color: '#1B4371',
-    textAlign: 'center',
+    color: "#1B4371",
+    textAlign: "center",
   },
-    
 });
