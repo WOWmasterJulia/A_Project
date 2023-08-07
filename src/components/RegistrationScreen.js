@@ -26,6 +26,13 @@ export default function Registration() {
 
   const navigation = useNavigation();
 
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
+  const togglePassword = () => {
+    setSecureTextEntry(!secureTextEntry);
+  };
+  // const [isOpenKeyboard, setIsOpenKeyboard] = useState(false);
+
+
   // отримання даних з форми
   const newRegistration = () => {
     console.log({ login, email, password });
@@ -68,6 +75,8 @@ export default function Registration() {
                     placeholder="Логін"
                     value={login}
                     onChangeText={setLogin}
+                    // onFocus={() => setIsOpenKeyboard(true)}
+                    // onBlur={() => setIsOpenKeyboard(false)}
                   />
                   <TextInput
                     style={styles.input}
@@ -81,13 +90,18 @@ export default function Registration() {
                       placeholder="Пароль"
                       value={password}
                       onChangeText={setPassword}
-                      secureTextEntry={true}
+                      // secureTextEntry={true}
+                      secureTextEntry={secureTextEntry}
                     />
                     <Pressable
                       style={styles.buttonSee}
-                      onPress={() => alert(1)}
+                      // onPress={() => alert(1)}
+                      onPress={togglePassword}
                     >
-                      <Text style={styles.text}>Показати</Text>
+                      {/* <Text style={styles.text}>Показати</Text> */}
+                      <Text style={styles.text}>
+                        {secureTextEntry ? "Показати" : "Сховати"}
+                      </Text>
                     </Pressable>
                   </View>
                 </View>

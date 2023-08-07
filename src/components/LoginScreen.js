@@ -22,6 +22,12 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   const navigation = useNavigation();
+
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
+  const togglePassword = () => {
+    setSecureTextEntry(!secureTextEntry);
+  };
+
   const onLogin = () => {
     console.log({ email, password });
     Alert.alert("Email and Password :", `${email} and ${password}`);
@@ -45,7 +51,6 @@ export default function Login() {
             keyboardVerticalOffset={-50}
           >
             <View style={styles.loginWrap}>
-              {/* <Image source={require('../assets_new/photos/Add_Ava.png')} resizeMode="cover" style={styles.image}></Image> */}
               <Text style={styles.title}>Увійти</Text>
               <TextInput
                 style={styles.input}
@@ -59,10 +64,16 @@ export default function Login() {
                   placeholder="Пароль"
                   value={password}
                   onChangeText={setPassword}
-                  secureTextEntry={true}
+                  // secureTextEntry={true}
+                  secureTextEntry={secureTextEntry}
                 />
-                <Pressable style={styles.buttonSee} onPress={() => alert(1)}>
-                  <Text style={styles.text}>Показати</Text>
+                <Pressable
+                  style={styles.buttonSee}
+                  // onPress={() => alert(1)}
+                  onPress={togglePassword}
+                >
+                  {/* <Text style={styles.text}>Показати</Text> */}
+                  <Text>{secureTextEntry ? "Показати" : "Сховати"}</Text>
                 </Pressable>
               </View>
 
@@ -153,9 +164,8 @@ const styles = StyleSheet.create({
   },
   textWrap: {
     alignItems: "center",
-    // alignSelf: "flex-start",
     justifyContent: "center",
-    gap: 8,
+    gap: 5,
     flexDirection: "row",
   },
   textLine: {

@@ -12,9 +12,9 @@ const MainStack = createStackNavigator(); // вказує на групу нав
 export default function App() {
   return (
     <NavigationContainer>
-      <MainStack.Navigator initialRouteName="Login" screenOptions={{
-          headerShown:false,
-        }}>
+      <MainStack.Navigator initialRouteName="Login"
+        // screenOptions={{ headerShown: false, }}
+      >
         <MainStack.Screen name="Registration" component={Registration} />
         <MainStack.Screen name="Login" component={Login} />
         <MainStack.Screen name="Posts" component={Posts} />
