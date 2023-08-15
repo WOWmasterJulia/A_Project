@@ -20,6 +20,8 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // const [visiblePassword, setVisiblePassword] = useState(true);
+  const [focused, setFocused] = useState(null);
   const navigation = useNavigation();
   
   //Показати та сховати пароль
@@ -54,19 +56,33 @@ export default function Login() {
             <View style={styles.loginWrap}>
               <Text style={styles.title}>Увійти</Text>
               <TextInput
-                style={styles.input}
+                // style={styles.input}
+                style={
+                  focused === "email"
+                    ? { ...styles.input, ...styles.focusedInput }
+                    : { ...styles.input }
+                }
                 placeholder="Адреса електронної пошти"
                 value={email}
                 onChangeText={setEmail}
+                onFocus={() => setFocused("email")}
+                onBlur={() => setFocused(null)}
               />
               <View>
                 <TextInput
-                  style={styles.input}
+                  // style={styles.input}
+                  style={
+                    focused === "password"
+                      ? { ...styles.input, ...styles.focusedInput }
+                      : { ...styles.input }
+                  }
                   placeholder="Пароль"
                   value={password}
                   onChangeText={setPassword}
                   // secureTextEntry={true}
                   secureTextEntry={secureTextEntry}
+                  onFocus={() => setFocused("password")}
+                  onBlur={() => setFocused(null)}
                 />
                 <Pressable
                   style={styles.buttonSee}
@@ -136,6 +152,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 16,
     paddingLeft: 16,
+  },
+
+  focusedInput: {
+    borderColor: "#FF6C00",
+    borderWidth: 2,
   },
 
   buttonSee: {
