@@ -16,7 +16,7 @@ import {
 import Background from '../assets_new/photos/Photo_BG.png';
 import { useNavigation } from '@react-navigation/native';
 
-export default function Login() {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -34,8 +34,8 @@ export default function Login() {
   const onLogin = () => {
     console.log({ email, password });
     Alert.alert("Email and Password :", `${email} and ${password}`);
-    // navigation.navigate("Home");
-    navigation.navigate("Posts");
+    // navigation.navigate("Post");
+    navigation.navigate("Home");
     // очищення форми
     setEmail("");
     setPassword("");
@@ -197,3 +197,5 @@ const styles = StyleSheet.create({
     textDecorationLine: "underline",
   },
 });
+
+export default Login;

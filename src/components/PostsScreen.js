@@ -15,9 +15,10 @@ import {
 } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 
-export default function Posts() {
+const Post = () => {
     
-const navigation = useNavigation();
+  const navigation = useNavigation();
+  
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -31,7 +32,7 @@ const navigation = useNavigation();
       </View>
       <View style={styles.profileWrap}>
         <Image
-          source={require("../assets_new/photos/Ava.png")}
+          source={require("../assets_new/photos/Ava_Romanova.png")}
           resizeMode="cover"
           style={styles.image}
         ></Image>
@@ -111,3 +112,5 @@ const styles = StyleSheet.create({
   //   textAlign: "center",
   // },
 });
+
+export default Post;

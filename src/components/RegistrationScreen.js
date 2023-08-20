@@ -19,7 +19,8 @@ import Background from "../assets_new/photos/Photo_BG.png";
 
 import { useNavigation } from "@react-navigation/native";
 
-export default function Registration() {
+
+const Registration = () => {
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,8 +40,8 @@ export default function Registration() {
       "Login, Email and Password :",
       `${login}, ${email} and ${password}`
     );
-    // navigation.navigate("Home");
-    navigation.navigate("Posts");
+    // navigation.navigate("Post");
+    navigation.navigate("Home");
     // очищення форми
     setLogin("");
     setEmail("");
@@ -229,3 +230,5 @@ const styles = StyleSheet.create({
     paddingBottom: 79,
   },
 });
+
+export default Registration;

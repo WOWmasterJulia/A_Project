@@ -6,18 +6,26 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import Registration from './src/components/RegistrationScreen';
 import Login from './src/components/LoginScreen';
-import Posts from './src/components/PostsScreen';
+// import Post from './src/components/PostsScreen';
+import Home from './src/components/Home';
+// import Mycamera from "./src/components/Mycamera";
+import Comments from "./src/components/CommentsScreen";
 
 const MainStack = createStackNavigator(); // вказує на групу навігаторів
+
 export default function App() {
   return (
     <NavigationContainer>
-      <MainStack.Navigator initialRouteName="Login"
-        screenOptions={{ headerShown: false, }}
+      <MainStack.Navigator
+        initialRouteName="Login"
+        screenOptions={{ headerShown: false }}
       >
         <MainStack.Screen name="Registration" component={Registration} />
         <MainStack.Screen name="Login" component={Login} />
-        <MainStack.Screen name="Posts" component={Posts} />
+        {/* <MainStack.Screen name="Mycamera" component={Mycamera} /> */}
+        {/* <MainStack.Screen name="Post" component={Post} /> */}
+        <MainStack.Screen name="Home" component={Home} />
+        <MainStack.Screen name="Comments" component={Comments} />
       </MainStack.Navigator>
     </NavigationContainer>
   );
