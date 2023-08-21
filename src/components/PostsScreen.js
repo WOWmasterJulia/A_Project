@@ -30,6 +30,7 @@ const Post = () => {
           <Image source={require("../assets_new/icons/log-out.png")} />
         </Pressable>
       </View>
+
       <View style={styles.profileWrap}>
         <Image
           source={require("../assets_new/photos/Ava_Romanova.png")}
@@ -41,7 +42,12 @@ const Post = () => {
           <Text style={styles.email}>email@example.com</Text>
         </View>
       </View>
-
+      <Pressable
+        style={styles.postStyle}
+        onPress={() => navigation.navigate("Comments")}
+      >
+        <Image source={require("../assets_new/photos/Photo_2.png")} />
+      </Pressable>
       {/* <Pressable
         style={styles.button}
         onPress={() => navigation.navigate("Login")}>
@@ -111,6 +117,10 @@ const styles = StyleSheet.create({
   //   color: "#fff",
   //   textAlign: "center",
   // },
+  postStyle: {
+    alignSelf: "center",
+    marginTop: 15,
+  },
 });
 
 export default Post;
