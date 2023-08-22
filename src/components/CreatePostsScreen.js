@@ -7,7 +7,7 @@ import {
   Pressable, TextInput,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { AntDesign } from "@expo/vector-icons";
+import { Ionicons, AntDesign } from "@expo/vector-icons";
 import Map from "./MapScreen.js";
 
 const CreatePost = () => {
@@ -30,14 +30,16 @@ const [text, setText] = useState("");
       </View>
 
       <View style={styles.createWrap}>
+        <View style={styles.photoWrap}>
         <Pressable
           style={styles.postStyle}
-          onPress={() => navigation.navigate("Comments")}>
+          onPress={() => navigation.navigate("Comments")}
+        >
           <Image source={require("../assets_new/photos/Content_Block.png")} />
         </Pressable>
-        {/* <View style={styles.userInfotWrap}> */}
-          <Text style={styles.downloadPhoto}>Завантажте фото</Text>
-        {/* </View> */}
+        <Ionicons name="ios-camera" size={24} color="#BDBDBD" />
+        </View>
+        <Text style={styles.downloadPhoto}>Завантажте фото</Text>
 
         <View style={styles.inputsWrap}>
           <TextInput
@@ -46,12 +48,15 @@ const [text, setText] = useState("");
             value={text}
             onChangeText={setText}
           />
-          <TextInput
-            style={styles.input}
-            placeholder="Місцевість..."
-            value={text}
-            onChangeText={setText}
-          />
+          <View style={styles.inputLocal}>
+            <Ionicons name="ios-location-outline" size={24} color="#BDBDBD" />
+            <TextInput
+              style={styles.input}
+              placeholder="Місцевість..."
+              value={text}
+              onChangeText={setText}
+            />
+          </View>
         </View>
 
         <Pressable
@@ -61,6 +66,12 @@ const [text, setText] = useState("");
           <Text style={styles.btnText}>Опублікувати</Text>
         </Pressable>
       </View>
+      <Pressable
+        style={styles.delButton}
+        // onPress={() => navigation.navigate("Login")}
+      >
+        <AntDesign name="delete" size={24} color="#BDBDBD" />
+      </Pressable>
     </View>
   );
 }
@@ -108,6 +119,11 @@ const styles = StyleSheet.create({
     // gap: 8,
     // flexDirection: "row",
   },
+  photoWrap: {
+    alignItems: "center",
+    // justifyContent: "center",
+    // alignSelf: "center",
+  },
   postStyle: {
     marginBottom: 8,
     alignSelf: "center",
@@ -130,6 +146,9 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     // paddingLeft: 16,
   },
+  inputLocal: {
+    // flexDirection: "row",
+  },
   button: {
     // backgroundColor: "#FF6C00",
     backgroundColor: "#F6F6F6",
@@ -146,6 +165,18 @@ const styles = StyleSheet.create({
     // color: "#fff",
     color: "#BDBDBD",
     textAlign: "center",
+  },
+  delButton: {
+    // backgroundColor: "#FF6C00",
+    alignSelf: "center",
+    backgroundColor: "#F6F6F6",
+    borderRadius: 20,
+    // marginTop: 16,
+    marginBottom: 22,
+    paddingTop: 8,
+    paddingBottom: 8,
+    paddingLeft: 23,
+    paddingRight: 23,
   },
 });
 
