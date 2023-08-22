@@ -14,8 +14,8 @@ const Home = () => {
     <Tabs.Navigator
       labeled={false}
       screenOptions={({ route }) => ({
-        tabBaractiveTintColor: "tomato",
-        tabBarinactiveTintColor: "gray",
+        tabBarActiveTintColor: "#FF6C00",
+        tabBarInactiveTintColor: "gray",
         tabBarShowLabel: false,
 
         headerShown: false,
@@ -32,10 +32,7 @@ const Home = () => {
         },
       })}
     >
-      <Tabs.Screen
-        name="Post"
-        component={Post}
-      />
+      <Tabs.Screen name="Post" component={Post} />
       <Tabs.Screen
         name="CreatePost"
         component={CreatePost}

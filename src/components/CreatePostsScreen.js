@@ -4,7 +4,13 @@ import {
   Image,
   Text,
   StyleSheet,
-  Pressable, TextInput,
+  Pressable,
+  TextInput,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
+  TouchableHighlight,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
@@ -12,79 +18,88 @@ import Map from "./MapScreen.js";
 
 const CreatePost = () => {
 const navigation = useNavigation();
-const [text, setText] = useState("");
+  const [text, setText] = useState("");
+  const [locate, setLocate] = useState("");
   return (
-    
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Pressable
-          style={styles.pressLogoff}
-          onPress={() => navigation.navigate("Post")}
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
+          behavior={Platform.OS == "ios" ? "padding" : "height"}
+          // keyboardVerticalOffset={-50}
+          // style={{ flex: 1 }}
         >
-          <AntDesign name="arrowleft" size={22} color="black" />
-        </Pressable>
-        <Text style={styles.title}>Створити публікацію</Text>
-      </View>
-
-      <View style={styles.createWrap}>
-        
-        <View style={styles.photoWrap}>
-          <Pressable
-            style={styles.postPhoto}
-            onPress={() => navigation.navigate("Comments")}
-          >
-            <Image source={require("../assets_new/photos/Content_Block.png")} />
-          </Pressable>
-          
-          <Pressable style={styles.ellipse} onPress={() => PhotoCamera}>
-            <Ionicons
-              name="ios-camera"
-              size={24}
-              color="#BDBDBD"
-              style={styles.photoCam}
-            />
-          </Pressable>
-        </View>
-
-        <Text style={styles.downloadPhoto}>Завантажте фото</Text>
-
-        <View style={styles.inputsWrap}>
-          <TextInput
-            style={styles.input}
-            placeholder="Назва"
-            value={text}
-            onChangeText={setText}
-          />
-          <View >
-            <Ionicons
-              name="ios-location-outline"
-              size={24}
-              color="#BDBDBD"
-              style={styles.ico}
-            />
-            <TextInput
-              style={styles.inputLoc}
-              placeholder="Місцевість..."
-              value={text}
-              onChangeText={setText}
-            />
+          <View style={styles.header}>
+            <Pressable
+              style={styles.pressLogoff}
+              onPress={() => navigation.navigate("Post")}
+            >
+              <AntDesign name="arrowleft" size={22} color="black" />
+            </Pressable>
+            <Text style={styles.title}>Створити публікацію</Text>
           </View>
-        </View>
+          
+          <View style={styles.createWrap}>
+            <View style={styles.photoWrap}>
+              <Pressable
+                style={styles.postPhoto}
+                onPress={() => navigation.navigate("Comments")}
+              >
+                <Image
+                  source={require("../assets_new/photos/Content_Block.png")}
+                />
+              </Pressable>
 
-        <Pressable
-          style={styles.button}
-          // onPress={() => navigation.navigate("Login")}
-        >
-          <Text style={styles.btnText}>Опублікувати</Text>
-        </Pressable>
+              <Pressable style={styles.ellipse} onPress={() => PhotoCamera}>
+                <Ionicons
+                  name="ios-camera"
+                  size={24}
+                  color="#BDBDBD"
+                  style={styles.photoCam}
+                />
+              </Pressable>
+            </View>
+
+            <Text style={styles.downloadPhoto}>Завантажте фото</Text>
+
+            <View style={styles.inputsWrap}>
+              <TextInput
+                style={styles.input}
+                placeholder="Назва"
+                value={text}
+                onChangeText={setText}
+              />
+              <View>
+                <Ionicons
+                  name="ios-location-outline"
+                  size={24}
+                  color="#BDBDBD"
+                  style={styles.ico}
+                />
+                <TextInput
+                  style={styles.inputLoc}
+                  placeholder="Місцевість..."
+                  value={locate}
+                  onChangeText={setLocate}
+                />
+              </View>
+            </View>
+
+            <Pressable
+              style={styles.button}
+              // onPress={() => navigation.navigate("Login")}
+            >
+              <Text style={styles.btnText}>Опублікувати</Text>
+            </Pressable>
+            <Pressable
+              style={styles.delButton}
+              // onPress={() => navigation.navigate("Login")}
+            >
+              <AntDesign name="delete" size={24} color="#BDBDBD" />
+            </Pressable>
+          </View>
+        </KeyboardAvoidingView>
       </View>
-      <Pressable
-        style={styles.delButton}
-        // onPress={() => navigation.navigate("Login")}
-      >
-        <AntDesign name="delete" size={24} color="#BDBDBD" />
-      </Pressable>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -175,7 +190,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F6F6F6",
     borderRadius: 100,
     marginTop: 16,
-    marginBottom: 16,
+    marginBottom: 70,
     paddingTop: 16,
     paddingBottom: 16,
     paddingLeft: 32,
@@ -192,11 +207,12 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     backgroundColor: "#F6F6F6",
     borderRadius: 20,
-    marginBottom: 22,
+    // marginBottom: 10,
     paddingTop: 8,
     paddingBottom: 8,
     paddingLeft: 23,
     paddingRight: 23,
+    justifyContent: "flex-end",
   },
 });
 
