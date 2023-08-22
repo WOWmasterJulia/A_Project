@@ -14,6 +14,10 @@ const Home = () => {
     <Tabs.Navigator
       labeled={false}
       screenOptions={({ route }) => ({
+        tabBaractiveTintColor: "tomato",
+        tabBarinactiveTintColor: "gray",
+        tabBarShowLabel: false,
+
         headerShown: false,
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
@@ -27,21 +31,16 @@ const Home = () => {
           return <AntDesign name={iconName} size={size} color={color} />;
         },
       })}
-      tabBarOptions={{
-        activeTintColor: "tomato",
-        inactiveTintColor: "gray",
-        // labeled: false,
-        // Label: "none",
-        // tabBarStyle: { display: "none" },
-      }}
     >
       <Tabs.Screen
         name="Post"
         component={Post}
-        // options={{ tabBarLabel: "false" }}
-        // options={{ tabBarStyle: { display: "none" }, }}
       />
-      <Tabs.Screen name="CreatePost" component={CreatePost} />
+      <Tabs.Screen
+        name="CreatePost"
+        component={CreatePost}
+        options={{ tabBarStyle: { display: "none" } }}
+      />
       <Tabs.Screen name="Profile" component={Profile} />
     </Tabs.Navigator>
   );
