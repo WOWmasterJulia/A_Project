@@ -10,7 +10,7 @@ export default function PhotoCamera() {
 
   useEffect(() => {
     (async () => {
-      const { status } = await Camera.requestPermissionsAsync();
+      const { status } = await Camera.requestCameraPermissionsAsync();
       await MediaLibrary.requestPermissionsAsync();
       setHasPermission(status === "granted");
     })();
