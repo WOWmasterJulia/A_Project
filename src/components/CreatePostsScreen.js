@@ -31,13 +31,13 @@ const [text, setText] = useState("");
 
       <View style={styles.createWrap}>
         <View style={styles.photoWrap}>
-        <Pressable
-          style={styles.postStyle}
-          onPress={() => navigation.navigate("Comments")}
-        >
-          <Image source={require("../assets_new/photos/Content_Block.png")} />
-        </Pressable>
-        <Ionicons name="ios-camera" size={24} color="#BDBDBD" />
+          <Pressable
+            style={styles.postStyle}
+            onPress={() => navigation.navigate("Comments")}
+          >
+            <Image source={require("../assets_new/photos/Content_Block.png")} />
+          </Pressable>
+          <Ionicons name="ios-camera" size={24} color="#BDBDBD" />
         </View>
         <Text style={styles.downloadPhoto}>Завантажте фото</Text>
 
@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     // justifyContent: "center",
     // alignSelf: "center",
+    
   },
   postStyle: {
     marginBottom: 8,
