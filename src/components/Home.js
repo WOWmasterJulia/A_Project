@@ -30,14 +30,16 @@ const Home = () => {
       tabBarOptions={{
         activeTintColor: "tomato",
         inactiveTintColor: "gray",
-        labeled: false,
-        Label: "none",
+        // labeled: false,
+        // Label: "none",
+        // tabBarStyle: { display: "none" },
       }}
     >
       <Tabs.Screen
         name="Post"
         component={Post}
         // options={{ tabBarLabel: "false" }}
+        // options={{ tabBarStyle: { display: "none" }, }}
       />
       <Tabs.Screen name="CreatePost" component={CreatePost} />
       <Tabs.Screen name="Profile" component={Profile} />

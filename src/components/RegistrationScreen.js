@@ -16,9 +16,8 @@ import {
   Pressable,
 } from "react-native";
 import Background from "../assets_new/photos/Photo_BG.png";
-
+import PhotoCamera from "./PhotoCamera";
 import { useNavigation } from "@react-navigation/native";
-
 
 const Registration = () => {
   const [login, setLogin] = useState("");
@@ -31,7 +30,9 @@ const Registration = () => {
   const togglePassword = () => {
     setSecureTextEntry(!secureTextEntry);
   };
-  
+  const madeAva = () => {
+    <PhotoCamera />;
+  };
 
   // отримання даних з форми
   const newRegistration = () => {
@@ -113,7 +114,8 @@ const Registration = () => {
                 ></Image>
                 <Pressable
                   style={styles.buttonAdd}
-                  onPress={() => Alert.alert("Take a picture for avatar!")}
+                  onPress={() => PhotoCamera}
+                  // onPress={() => Alert.alert("Take a picture for avatar!")}
                 >
                   <Image
                     source={require("../assets_new/icons/add.png")}
@@ -145,7 +147,7 @@ const Registration = () => {
       </TouchableWithoutFeedback>
     </ImageBackground>
   );
-}
+};
 // }
 
 const styles = StyleSheet.create({

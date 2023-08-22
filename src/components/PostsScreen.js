@@ -14,6 +14,7 @@ import {
   Pressable,
 } from "react-native";
 import { useNavigation } from '@react-navigation/native';
+import Comments from "./CommentsScreen.js";
 
 const Post = () => {
     
