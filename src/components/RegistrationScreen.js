@@ -94,7 +94,6 @@ const Registration = () => {
                     />
                     <Pressable
                       style={styles.buttonSee}
-                      // onPress={() => alert(1)}
                       onPress={togglePassword}
                     >
                       {/* <Text style={styles.text}>Показати</Text> */}

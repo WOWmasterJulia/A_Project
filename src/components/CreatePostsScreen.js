@@ -14,10 +14,7 @@ const CreatePost = () => {
 const navigation = useNavigation();
 const [text, setText] = useState("");
   return (
-    // <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-    //   <Text>Create post!</Text>
-    //   {/* <Map /> */}
-    // </View>
+    
     <View style={styles.container}>
       <View style={styles.header}>
         <Pressable
@@ -30,23 +27,25 @@ const [text, setText] = useState("");
       </View>
 
       <View style={styles.createWrap}>
+        
         <View style={styles.photoWrap}>
           <Pressable
-            style={styles.postStyle}
-            onPress={() => navigation.navigate("Comments")} >
+            style={styles.postPhoto}
+            onPress={() => navigation.navigate("Comments")}
+          >
             <Image source={require("../assets_new/photos/Content_Block.png")} />
           </Pressable>
-          <View style={styles.camWrap}>
-            <Pressable style={styles.ellipse} onPress={() => PhotoCamera}>
-              <Image
-                source={require("../assets_new/icons/Ellipse_Camera.png")}
-                // style={styles.ellip}
-              ></Image>
-            </Pressable>
-            <Ionicons name="ios-camera" size={24} color="#BDBDBD" />
-          </View>
+          
+          <Pressable style={styles.ellipse} onPress={() => PhotoCamera}>
+            <Ionicons
+              name="ios-camera"
+              size={24}
+              color="#BDBDBD"
+              style={styles.photoCam}
+            />
+          </Pressable>
         </View>
-        
+
         <Text style={styles.downloadPhoto}>Завантажте фото</Text>
 
         <View style={styles.inputsWrap}>
@@ -56,10 +55,15 @@ const [text, setText] = useState("");
             value={text}
             onChangeText={setText}
           />
-          <View style={styles.inputLocal}>
-            <Ionicons name="ios-location-outline" size={24} color="#BDBDBD" />
+          <View >
+            <Ionicons
+              name="ios-location-outline"
+              size={24}
+              color="#BDBDBD"
+              style={styles.ico}
+            />
             <TextInput
-              style={styles.input}
+              style={styles.inputLoc}
               placeholder="Місцевість..."
               value={text}
               onChangeText={setText}
@@ -111,41 +115,35 @@ const styles = StyleSheet.create({
     marginLeft: 12,
     paddingRight: 10,
   },
-  // logOut: {
-  //   alignSelf: "center",
-  //   marginLeft: 120,
-  //   paddingRight: 10,
-  // },
   createWrap: {
     alignItems: "center",
     marginTop: 32,
     alignItems: "stretch",
     paddingLeft: 16,
     paddingRight: 16,
-    // alignSelf: "flex-start",
-    // justifyContent: "flex-start",
-    // gap: 8,
-    // flexDirection: "row",
   },
   photoWrap: {
     alignItems: "center",
-    // position: "absolute",
-    // justifyContent: "center",
-    // alignSelf: "center",
+    position: "relative",
   },
-  camWrap: {
-    alignItems: "center",
-    // alignSelf: "center",
-    position: "absolute",
-  },
-  postStyle: {
+  postPhoto: {
     marginBottom: 8,
     alignSelf: "center",
   },
-  // image: {
-  //   width: 60,
-  //   height: 60,
-  // },
+  ellipse: {
+    flex: 1,
+    backgroundColor: "#fff",
+    width: 60,
+    height: 60,
+    borderRadius: 100,
+    alignItems: "center",
+    position: "absolute",
+    top: 90,
+  },
+  photoCam: {
+    position: "absolute",
+    top: 15,
+  },
   downloadPhoto: {
     fontSize: 16,
     color: "#BDBDBD",
@@ -158,10 +156,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
     borderBottomWidth: 1,
     marginBottom: 16,
-    // paddingLeft: 16,
   },
-  inputLocal: {
-    // flexDirection: "row",
+  ico: {
+    position: "absolute",
+    top: 10,
+  },
+  inputLoc: {
+    height: 50,
+    color: "#212121",
+    borderColor: "#E8E8E8",
+    fontSize: 16,
+    borderBottomWidth: 1,
+    marginBottom: 16,
+    paddingLeft: 30,
   },
   button: {
     // backgroundColor: "#FF6C00",
@@ -185,7 +192,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     backgroundColor: "#F6F6F6",
     borderRadius: 20,
-    // marginTop: 16,
     marginBottom: 22,
     paddingTop: 8,
     paddingBottom: 8,
