@@ -24,6 +24,8 @@ const Registration = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+const [focused, setFocused] = useState(null);
+
   const navigation = useNavigation();
   //Показати та сховати пароль
   const [secureTextEntry, setSecureTextEntry] = useState(true);
@@ -72,25 +74,46 @@ const Registration = () => {
               >
                 <View style={styles.inputsWrap}>
                   <TextInput
-                    style={styles.input}
+                    // style={styles.input}
+                    style={
+                      focused === "login"
+                        ? { ...styles.input, ...styles.focusedInput }
+                        : { ...styles.input }
+                    }
                     placeholder="Логін"
                     value={login}
                     onChangeText={setLogin}
+                    onFocus={() => setFocused("login")}
+                    onBlur={() => setFocused(null)}
                   />
                   <TextInput
-                    style={styles.input}
+                    // style={styles.input}
+                    style={
+                      focused === "email"
+                        ? { ...styles.input, ...styles.focusedInput }
+                        : { ...styles.input }
+                    }
                     placeholder="Адреса електронної пошти"
                     value={email}
                     onChangeText={setEmail}
+                    onFocus={() => setFocused("email")}
+                    onBlur={() => setFocused(null)}
                   />
                   <View>
                     <TextInput
-                      style={styles.input}
+                      // style={styles.input}
+                      style={
+                        focused === "password"
+                          ? { ...styles.input, ...styles.focusedInput }
+                          : { ...styles.input }
+                      }
                       placeholder="Пароль"
                       value={password}
                       onChangeText={setPassword}
                       // secureTextEntry={true}
                       secureTextEntry={secureTextEntry}
+                      onFocus={() => setFocused("password")}
+                      onBlur={() => setFocused(null)}
                     />
                     <Pressable
                       style={styles.buttonSee}
@@ -200,6 +223,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 16,
     paddingLeft: 16,
+  },
+  focusedInput: {
+    borderColor: "#FF6C00",
+    borderWidth: 2,
   },
   buttonSee: {
     position: "absolute",

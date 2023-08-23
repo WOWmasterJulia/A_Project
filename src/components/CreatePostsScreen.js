@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   View,
   Image,
+  Alert,
   Text,
   StyleSheet,
   Pressable,
@@ -17,17 +18,37 @@ import { Ionicons, AntDesign } from "@expo/vector-icons";
 import Map from "./MapScreen.js";
 
 const CreatePost = () => {
-const navigation = useNavigation();
+  const navigation = useNavigation();
   const [text, setText] = useState("");
   const [locate, setLocate] = useState("");
+
+  const [focused, setFocused] = useState(null);
+
+  // отримання даних з форми
+  const newPost = () => {
+    // console.log({ text, locate});
+    // Alert.alert("text and locate :", `${text}, ${locate}`);
+    navigation.navigate("Post");
+    // navigation.navigate("Home");
+    // очищення форми
+    setText("");
+    setLocate("");
+  };
+
   return (
+    // <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
+    //       behavior={Platform.OS == "ios" ? "padding" : "height"}
+    //       //  keyboardVerticalOffset={-50}
+    //       // style={{ flex: 1 }}
+    //     >
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
-        <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
+        {/* <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
           behavior={Platform.OS == "ios" ? "padding" : "height"}
-          // keyboardVerticalOffset={-50}
+          //  keyboardVerticalOffset={-50}
           // style={{ flex: 1 }}
-        >
+        > */}
+        <View style={styles.allWrap}>
           <View style={styles.header}>
             <Pressable
               style={styles.pressLogoff}
@@ -37,12 +58,12 @@ const navigation = useNavigation();
             </Pressable>
             <Text style={styles.title}>Створити публікацію</Text>
           </View>
-          
+
           <View style={styles.createWrap}>
             <View style={styles.photoWrap}>
               <Pressable
                 style={styles.postPhoto}
-                onPress={() => navigation.navigate("Comments")}
+                // onPress={() => navigation.navigate("Comments")}
               >
                 <Image
                   source={require("../assets_new/photos/Content_Block.png")}
@@ -60,36 +81,64 @@ const navigation = useNavigation();
             </View>
 
             <Text style={styles.downloadPhoto}>Завантажте фото</Text>
-
-            <View style={styles.inputsWrap}>
-              <TextInput
-                style={styles.input}
-                placeholder="Назва"
-                value={text}
-                onChangeText={setText}
-              />
-              <View>
-                <Ionicons
-                  name="ios-location-outline"
-                  size={24}
-                  color="#BDBDBD"
-                  style={styles.ico}
-                />
+            <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
+              behavior={Platform.OS == "ios" ? "padding" : "height"}
+              //  keyboardVerticalOffset={-50}
+              // style={{ flex: 1 }}
+            >
+              <View style={styles.inputsWrap}>
                 <TextInput
-                  style={styles.inputLoc}
-                  placeholder="Місцевість..."
-                  value={locate}
-                  onChangeText={setLocate}
+                  // style={styles.input}
+                  style={
+                    focused === "text"
+                      ? { ...styles.input, ...styles.focusedInput }
+                      : { ...styles.input }
+                  }
+                  placeholder="Назва"
+                  value={text}
+                  onChangeText={setText}
+                  onFocus={() => setFocused("text")}
+                  onBlur={() => setFocused(null)}
                 />
+                <View style={styles.inputLoc}>
+                  <Ionicons
+                    name="ios-location-outline"
+                    size={24}
+                    color="#BDBDBD"
+                    style={styles.ico}
+                  />
+                  <TextInput
+                    // style={styles.inputLoc}
+                    style={
+                      focused === "locate"
+                        ? { ...styles.input, ...styles.focusedInput }
+                        : { ...styles.input }
+                    }
+                    placeholder="Місцевість..."
+                    value={locate}
+                    onChangeText={setLocate}
+                    onFocus={() => setFocused("locate")}
+                    onBlur={() => setFocused(null)}
+                  />
+                </View>
               </View>
-            </View>
+            </KeyboardAvoidingView>
 
             <Pressable
               style={styles.button}
+              // style={
+              //   focused === "button"
+              //     ? { ...styles.button, ...styles.focusedButton }
+              //     : { ...styles.button }
+              // }
               // onPress={() => navigation.navigate("Login")}
+              onPress={newPost}
+              // onFocus={() => setFocused("button")}
+              // onBlur={() => setFocused(null)}
             >
               <Text style={styles.btnText}>Опублікувати</Text>
             </Pressable>
+
             <Pressable
               style={styles.delButton}
               // onPress={() => navigation.navigate("Login")}
@@ -97,16 +146,26 @@ const navigation = useNavigation();
               <AntDesign name="delete" size={24} color="#BDBDBD" />
             </Pressable>
           </View>
-        </KeyboardAvoidingView>
+        </View>
+        {/* </KeyboardAvoidingView> */}
       </View>
     </TouchableWithoutFeedback>
+    // </KeyboardAvoidingView>
   );
 }
 
 
 const styles = StyleSheet.create({
   container: {
+    height: "100%",
+    // justifyContent: "flex-end",
     flex: 1,
+    // paddingLeft: 16,
+    // paddingRight: 16,
+    // backgroundColor: "#fff",
+  },
+  allWrap: {
+    // flex: 1,
     paddingLeft: 16,
     paddingRight: 16,
     backgroundColor: "#fff",
@@ -139,7 +198,7 @@ const styles = StyleSheet.create({
   },
   photoWrap: {
     alignItems: "center",
-    position: "relative",
+    // position: "relative",
   },
   postPhoto: {
     marginBottom: 8,
@@ -172,6 +231,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     marginBottom: 16,
   },
+  focusedInput: {
+    borderColor: "#FF6C00",
+    // borderWidth: 2,
+    // color: "#000",
+    color: "#FF6C00",
+  },
   ico: {
     position: "absolute",
     top: 10,
@@ -196,6 +261,12 @@ const styles = StyleSheet.create({
     paddingLeft: 32,
     paddingRight: 32,
   },
+  // focusedButton: {
+  //   borderColor: "#FF6C00",
+  //   // borderWidth: 2,
+  //   // color: "#000",
+  //   color: "#FF6C00",
+  // },
   btnText: {
     fontSize: 16,
     // color: "#fff",
@@ -212,6 +283,7 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
     paddingLeft: 23,
     paddingRight: 23,
+    marginBottom: 20,
     justifyContent: "flex-end",
   },
 });
