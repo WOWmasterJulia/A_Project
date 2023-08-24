@@ -133,23 +133,13 @@ const CreatePostsScreen = () => {
   };
 
   return (
-    // <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
-    //       behavior={Platform.OS == "ios" ? "padding" : "height"}
-    //       //  keyboardVerticalOffset={-50}
-    //       // style={{ flex: 1 }}
-    //     >
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      {/* <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
-          behavior={Platform.OS == "ios" ? "padding" : "height"}
-          //  keyboardVerticalOffset={-50}
-          // style={{ flex: 1 }}
-        > */}
       <View style={styles.container}>
-        {/* <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
-          behavior={Platform.OS == "ios" ? "padding" : "height"}
-          //  keyboardVerticalOffset={-50}
-          // style={{ flex: 1 }}
-        > */}
+        {/* <View style={{ height: "100%", justifyContent: "flex-end" }}> */}
+        <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+           keyboardVerticalOffset={-150}
+        >
         <View style={styles.allWrap}>
           <View style={styles.header}>
             <Pressable
@@ -163,11 +153,11 @@ const CreatePostsScreen = () => {
 
           <View style={styles.createWrap}>
             <View style={styles.photoWrap}>
-              {/* <Pressable style={styles.postPhoto}>
+              <Pressable style={styles.postPhoto}>
                 <Image
                   source={require("../assets_new/photos/Content_Block.png")}
                 />
-              </Pressable> */}
+              </Pressable>
 
               <Pressable style={styles.ellipse} onPress={openCamera}>
                 <Ionicons
@@ -191,11 +181,10 @@ const CreatePostsScreen = () => {
                 {capturedPhoto ? "Редагувати фото" : "Завантажте фото"}
               </Text>
             </Pressable>
-            {/* <Text style={styles.downloadPhoto}>Завантажте фото</Text> */}
+              {/* <Text style={styles.downloadPhoto}>Завантажте фото</Text> */}
+              
             <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
               behavior={Platform.OS == "ios" ? "padding" : "height"}
-              //  keyboardVerticalOffset={-50}
-              // style={{ flex: 1 }}
             >
               <View style={styles.inputsWrap}>
                 <TextInput
@@ -261,8 +250,8 @@ const CreatePostsScreen = () => {
               <Text
                 style={
                   isDisabledPublishBtn
-                    ? { ...styles.buttonTitle, color: "#BDBDBD" }
-                    : { ...styles.buttonTitle, color: "#FFFFFF" }
+                    ? { ...styles.btnText, color: "#BDBDBD" }
+                    : { ...styles.btnText, color: "#FFFFFF" }
                 }
               >
                 {location || !capturedPhoto
@@ -284,25 +273,22 @@ const CreatePostsScreen = () => {
             </Pressable>
           </View>
         </View>
-        {/* </KeyboardAvoidingView> */}
+        </KeyboardAvoidingView>
       </View>
-      {/* </KeyboardAvoidingView> */}
     </TouchableWithoutFeedback>
-    // </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     height: "100%",
-    // justifyContent: "flex-end",
+    justifyContent: "flex-end",
     flex: 1,
     // paddingLeft: 16,
     // paddingRight: 16,
     // backgroundColor: "#fff",
   },
   allWrap: {
-    // flex: 1,
     paddingLeft: 16,
     paddingRight: 16,
     backgroundColor: "#fff",
@@ -363,12 +349,11 @@ const styles = StyleSheet.create({
     top: 15,
   },
   cameraText: {
-    cameraText: {
-      marginTop: 8,
-      fontFamily: "Roboto-Regular",
-      fontSize: 16,
-      color: "#BDBDBD",
-    },
+    marginBottom: 32,
+    marginTop: 8,
+    // fontFamily: "Roboto-Regular",
+    fontSize: 16,
+    color: "#BDBDBD",
   },
   // downloadPhoto: {
   //   fontSize: 16,
@@ -404,7 +389,7 @@ const styles = StyleSheet.create({
   },
   button: {
     // backgroundColor: "#FF6C00",
-    backgroundColor: "#F6F6F6",
+    // backgroundColor: "#F6F6F6",
     borderRadius: 100,
     marginTop: 16,
     marginBottom: 70,
@@ -422,7 +407,7 @@ const styles = StyleSheet.create({
   btnText: {
     fontSize: 16,
     // color: "#fff",
-    color: "#BDBDBD",
+    // color: "#BDBDBD",
     textAlign: "center",
   },
   delButton: {
@@ -430,13 +415,14 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     backgroundColor: "#F6F6F6",
     borderRadius: 20,
-    // marginBottom: 10,
     paddingTop: 8,
     paddingBottom: 8,
     paddingLeft: 23,
     paddingRight: 23,
     marginBottom: 20,
-    justifyContent: "flex-end",
+    // justifyContent: "flex-end",
+    // alignItems: "center",
+    // justifyContent: "center",
   },
 });
 
