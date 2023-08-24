@@ -16,7 +16,7 @@ import {
   Pressable,
 } from "react-native";
 import Background from "../assets_new/photos/Photo_BG.png";
-import PhotoCamera from "./PhotoCamera";
+
 import { useNavigation } from "@react-navigation/native";
 
 const Registration = () => {
@@ -136,7 +136,7 @@ const [focused, setFocused] = useState(null);
                 ></Image>
                 <Pressable
                   style={styles.buttonAdd}
-                  onPress={() => PhotoCamera}
+                  // onPress={() => PhotoCamera!!!!!}
                   // onPress={() => Alert.alert("Take a picture for avatar!")}
                 >
                   <Image

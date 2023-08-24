@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 
 import Post from "./PostsScreen.js";
-import CreatePost from "./CreatePostsScreen.js";
+import CreatePostsScreen from "./CreatePostsScreen.js";
 import Profile from "./ProfileScreen.js";
 
 const Tabs = createBottomTabNavigator();
@@ -23,7 +23,7 @@ const Home = () => {
           let iconName;
           if (route.name === "Post") {
             iconName = focused ? "appstore-o" : "appstore1";
-          } else if (route.name === "CreatePost") {
+          } else if (route.name === "CreatePostsScreen") {
             iconName = focused ? "pluscircleo" : "pluscircle";
           } else if (route.name === "Profile") {
             iconName = focused ? "user" : "user";
@@ -34,8 +34,8 @@ const Home = () => {
     >
       <Tabs.Screen name="Post" component={Post} />
       <Tabs.Screen
-        name="CreatePost"
-        component={CreatePost}
+        name="CreatePostsScreen"
+        component={CreatePostsScreen}
         options={{ tabBarStyle: { display: "none" } }}
       />
       <Tabs.Screen name="Profile" component={Profile} />
