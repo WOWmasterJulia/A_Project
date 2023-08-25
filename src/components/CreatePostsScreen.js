@@ -167,11 +167,12 @@ const CreatePostsScreen = () => {
               />
               <View style={styles.inputLoc}>
                 <Pressable style={styles.ico}>
-                  <Ionicons
+                  {/* <Ionicons
                     name="ios-location-outline"
                     size={24}
                     color="#BDBDBD"
-                  />
+                  /> */}
+                  <Feather name="map-pin" size={24} color="#BDBDBD" />
                 </Pressable>
 
                 <TextInput
