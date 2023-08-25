@@ -120,7 +120,7 @@ const CreatePostsScreen = () => {
       <View style={styles.container}>
         <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
           behavior={Platform.OS === "ios" ? "padding" : "height"}
-          // keyboardVerticalOffset={-150}
+          keyboardVerticalOffset={-35}
         >
           <View>
             <View style={styles.header}>
@@ -247,8 +247,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     backgroundColor: "#ffffff",
     flex: 1,
-    justifyContent: "space-between",
-    // justifyContent: "flex-end",
+    // justifyContent: "space-between",
+    justifyContent: "flex-end",
   },
   header: {
     flexDirection: "row",
