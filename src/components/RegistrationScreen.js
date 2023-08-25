@@ -64,8 +64,6 @@ const [focused, setFocused] = useState(null);
             keyboardVerticalOffset={-150}
             // style={{ flex: 1 }}
           >
-            {/* <View style={styles.loginWrap}>
-              <View style={styles.generalWrap}> */}
             <View style={styles.registrationWrap}>
               <Text style={styles.title}>Реєстрація</Text>
 
@@ -162,8 +160,6 @@ const [focused, setFocused] = useState(null);
                 </Pressable>
               </View>
             </View>
-            {/* </View>
-            </View> */}
           </KeyboardAvoidingView>
         </View>
       </TouchableWithoutFeedback>
@@ -230,8 +226,6 @@ const styles = StyleSheet.create({
   },
   buttonSee: {
     position: "absolute",
-    // marginLeft: 280,
-    // marginTop: 145,
     right: 15,
     top: 15,
   },

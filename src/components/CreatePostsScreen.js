@@ -1,56 +1,39 @@
 import { Camera } from "expo-camera";
-
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
+  Keyboard,
+  KeyboardAvoidingView,
+  StyleSheet,
   View,
   Image,
-  Alert,
   Text,
-  StyleSheet,
-  Pressable,
   TextInput,
-  KeyboardAvoidingView,
+  Pressable,
   Platform,
   TouchableWithoutFeedback,
-  Keyboard,
-  TouchableHighlight,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
-import {
-  Ionicons,
-  AntDesign,
-  MaterialIcons,
-  Feather,
-  SimpleLineIcons,
-} from "@expo/vector-icons";
-
+import { useNavigation } from "@react-navigation/native";
 import * as Location from "expo-location";
 import * as MediaLibrary from "expo-media-library";
 import * as ImagePicker from "expo-image-picker";
+import {
+  MaterialIcons,
+  Feather,
+  AntDesign,
+  Ionicons,
+} from "@expo/vector-icons";
+import { SimpleLineIcons } from "@expo/vector-icons";
 
 const CreatePostsScreen = () => {
   const navigation = useNavigation();
   const [hasPermission, setHasPermission] = useState(null);
-  const [namePost, setNamePost] = useState("");
-  const [location, setLocation] = useState("");
-
+  const [location, setLocation] = useState(null);
   const [convertedCoordinate, setConvertedCoordinate] = useState(null);
   const [capturedPhoto, setCapturedPhoto] = useState(null);
+  const [namePost, setNamePost] = useState("");
   const [isDisabledPublishBtn, setIsDisabledPublishBtn] = useState(false);
 
-  const [focused, setFocused] = useState(null);
-
-  // отримання даних з форми
-  // const newPost = () => {
-  //   // console.log({ text, locate});
-  //   // Alert.alert("text and locate :", `${text}, ${locate}`);
-  //   navigation.navigate("Post");
-  //   // navigation.navigate("Home");
-  //   // очищення форми
-  //   setText("");
-  //   setLocate("");
-  // };
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
@@ -106,7 +89,7 @@ const CreatePostsScreen = () => {
       setCapturedPhoto(galleryResult.assets[0].uri);
 
       const { coords } = await Location.getCurrentPositionAsync();
-      setLocate(coords);
+      setLocation(coords);
       const address = await Location.reverseGeocodeAsync({
         latitude: coords.latitude,
         longitude: coords.longitude,
@@ -126,7 +109,7 @@ const CreatePostsScreen = () => {
       });
       setCapturedPhoto(null);
       setNamePost("");
-      setlocation(null);
+      setLocation(null);
       setConvertedCoordinate(null);
       navigation.navigate("Post");
     }
@@ -135,38 +118,27 @@ const CreatePostsScreen = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
-        {/* <View style={{ height: "100%", justifyContent: "flex-end" }}> */}
         <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
           behavior={Platform.OS === "ios" ? "padding" : "height"}
-           keyboardVerticalOffset={-150}
+          // keyboardVerticalOffset={-150}
         >
-        <View style={styles.allWrap}>
-          <View style={styles.header}>
-            <Pressable
-              style={styles.pressLogoff}
-              onPress={() => navigation.navigate("Post")}
-            >
-              <AntDesign name="arrowleft" size={22} color="black" />
-            </Pressable>
-            <Text style={styles.title}>Створити публікацію</Text>
-          </View>
-
-          <View style={styles.createWrap}>
-            <View style={styles.photoWrap}>
-              <Pressable style={styles.postPhoto}>
-                <Image
-                  source={require("../assets_new/photos/Content_Block.png")}
-                />
+          <View>
+            <View style={styles.header}>
+              <Pressable
+                style={styles.pressLogoff}
+                onPress={() => navigation.navigate("Post")}
+              >
+                <AntDesign name="arrowleft" size={22} color="black" />
               </Pressable>
+              <Text style={styles.title}>Створити публікацію</Text>
+            </View>
 
-              <Pressable style={styles.ellipse} onPress={openCamera}>
-                <Ionicons
-                  name="ios-camera"
-                  size={24}
-                  color="#BDBDBD"
-                  style={styles.photoCam}
-                />
-              </Pressable>
+            <View style={styles.cameraContainer}>
+              <View style={styles.cameraIconContainer}>
+                <Pressable style={styles.cameraIcon} onPress={openCamera}>
+                  <MaterialIcons name="camera-alt" size={24} color="#BDBDBD" />
+                </Pressable>
+              </View>
               {capturedPhoto ? (
                 <Image
                   style={styles.previewImage}
@@ -176,92 +148,83 @@ const CreatePostsScreen = () => {
                 <Camera style={styles.camera} />
               )}
             </View>
+
             <Pressable onPress={openGallery}>
               <Text style={styles.cameraText}>
                 {capturedPhoto ? "Редагувати фото" : "Завантажте фото"}
               </Text>
             </Pressable>
-              {/* <Text style={styles.downloadPhoto}>Завантажте фото</Text> */}
-              
-            <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
+            {/* <KeyboardAvoidingView // визначаємо ОС та налаштовуємо поведінку клавіатури
               behavior={Platform.OS == "ios" ? "padding" : "height"}
-            >
-              <View style={styles.inputsWrap}>
-                <TextInput
-                  // style={styles.input}
-                  style={
-                    focused === "namePost"
-                      ? { ...styles.input, ...styles.focusedInput }
-                      : { ...styles.input }
-                  }
-                  placeholder="Назва"
-                  value={namePost.trimStart()}
-                  onChangeText={setNamePost}
-                  onFocus={() => setFocused("namePost")}
-                  onBlur={() => setFocused(null)}
-                />
-                <View style={styles.inputLoc}>
+            > */}
+            <View style={styles.inputContainer}>
+              <TextInput
+                style={styles.input}
+                placeholder="Назва..."
+                placeholderTextColor="#BDBDBD"
+                value={namePost.trimStart()}
+                onChangeText={setNamePost}
+              />
+              <View style={styles.inputLoc}>
+                <Pressable style={styles.ico}>
                   <Ionicons
                     name="ios-location-outline"
                     size={24}
                     color="#BDBDBD"
-                    style={styles.ico}
                   />
-                  <TextInput
-                    // style={styles.inputLoc}
-                    style={
-                      focused === "location"
-                        ? { ...styles.input, ...styles.focusedInput }
-                        : { ...styles.input }
-                    }
-                    placeholder="Місцевість..."
-                    // value={locate}
-                    value={
-                      convertedCoordinate
-                        ? `${convertedCoordinate.region}, ${convertedCoordinate.country}`
-                        : null
-                    }
-                    onChangeText={setLocation}
-                    onFocus={() => setFocused("location")}
-                    onBlur={() => setFocused(null)}
-                  />
-                </View>
-              </View>
-            </KeyboardAvoidingView>
+                </Pressable>
 
-            {/* <Pressable
-              style={styles.button}
-              onPress={newPost}>
-              <Text style={styles.btnText}>Опублікувати</Text>
-            </Pressable> */}
-            <Pressable
-              style={
-                isDisabledPublishBtn
-                  ? {
-                      ...styles.button,
-                      backgroundColor: "#F6F6F6",
-                      color: "#BDBDBD",
-                    }
-                  : { ...styles.button, backgroundColor: "#FF6C00" }
-              }
-              disabled={isDisabledPublishBtn}
-              onPress={publishPhoto}
-            >
-              <Text
+                <TextInput
+                  style={{ ...styles.inputL }}
+                  placeholder="Місцевість..."
+                  placeholderTextColor="#BDBDBD"
+                  value={
+                    convertedCoordinate
+                      ? `${convertedCoordinate.region}, ${convertedCoordinate.country}`
+                      : null
+                  }
+                />
+              </View>
+              <Pressable
                 style={
                   isDisabledPublishBtn
-                    ? { ...styles.btnText, color: "#BDBDBD" }
-                    : { ...styles.btnText, color: "#FFFFFF" }
+                    ? {
+                        ...styles.button,
+                        backgroundColor: "#F6F6F6",
+                        color: "#BDBDBD",
+                      }
+                    : { ...styles.button, backgroundColor: "#FF6C00" }
                 }
+                disabled={isDisabledPublishBtn}
+                onPress={publishPhoto}
               >
-                {location || !capturedPhoto
-                  ? "Опублікувати"
-                  : "Завантаження..."}
-              </Text>
-            </Pressable>
+                <Text
+                  style={
+                    isDisabledPublishBtn
+                      ? {
+                          ...styles.buttonTitle,
+                          color: "#BDBDBD",
+                        }
+                      : { ...styles.buttonTitle, color: "#FFFFFF" }
+                  }
+                >
+                  {location || !capturedPhoto
+                    ? "Опублікувати"
+                    : "Завантаження..."}
+                </Text>
+              </Pressable>
+            </View>
+            {/* </KeyboardAvoidingView> */}
+          </View>
 
+          <View
+            style={{
+              alignItems: "center",
+              marginBottom: 34,
+            }}
+          >
             <Pressable
-              style={styles.delButton}
+              style={styles.buttonDelete}
               onPress={() => {
                 setCapturedPhoto(null);
                 setNamePost("");
@@ -269,10 +232,9 @@ const CreatePostsScreen = () => {
                 console.log("Delete");
               }}
             >
-              <AntDesign name="delete" size={24} color="#BDBDBD" />
+              <Feather name="trash-2" size={24} color="#BDBDBD" />
             </Pressable>
           </View>
-        </View>
         </KeyboardAvoidingView>
       </View>
     </TouchableWithoutFeedback>
@@ -282,16 +244,11 @@ const CreatePostsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     height: "100%",
-    justifyContent: "flex-end",
+    paddingHorizontal: 16,
+    backgroundColor: "#ffffff",
     flex: 1,
-    // paddingLeft: 16,
-    // paddingRight: 16,
-    // backgroundColor: "#fff",
-  },
-  allWrap: {
-    paddingLeft: 16,
-    paddingRight: 16,
-    backgroundColor: "#fff",
+    justifyContent: "space-between",
+    // justifyContent: "flex-end",
   },
   header: {
     flexDirection: "row",
@@ -305,124 +262,110 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     fontSize: 17,
     paddingBottom: 5,
-    marginLeft: 80,
+    marginLeft: 30,
+    // alignSelf: 'center',
+    // justifyContent: 'center',
   },
   pressLogoff: {
     alignSelf: "center",
     marginLeft: 12,
     paddingRight: 10,
   },
-  createWrap: {
-    alignItems: "center",
+  cameraContainer: {
+    position: "relative",
     marginTop: 32,
-    alignItems: "stretch",
-    paddingLeft: 16,
-    paddingRight: 16,
+    borderRadius: 8,
+    overflow: "hidden",
   },
-  photoWrap: {
+  cameraIconContainer: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: [{ translateX: -30 }, { translateY: -30 }],
+    zIndex: 1,
+  },
+  cameraIcon: {
+    justifyContent: "center",
     alignItems: "center",
-    // position: "relative",
-  },
-  // postPhoto: {
-  //   marginBottom: 8,
-  //   alignSelf: "center",
-  // },
-  previewImage: {
-    marginBottom: 8,
-    alignSelf: "center",
-  },
-  // camera: {
-  //   height: 240,
-  // },
-  ellipse: {
-    flex: 1,
-    backgroundColor: "#fff",
     width: 60,
     height: 60,
-    borderRadius: 100,
-    alignItems: "center",
-    position: "absolute",
-    top: 90,
+    borderRadius: 60,
+    backgroundColor: "#FFFFFF4D",
   },
-  photoCam: {
-    position: "absolute",
-    top: 15,
+  camera: {
+    height: 240,
   },
   cameraText: {
-    marginBottom: 32,
     marginTop: 8,
     // fontFamily: "Roboto-Regular",
     fontSize: 16,
     color: "#BDBDBD",
   },
-  // downloadPhoto: {
-  //   fontSize: 16,
-  //   color: "#BDBDBD",
-  //   marginBottom: 32,
-  // },
-  input: {
-    height: 50,
-    color: "#212121",
-    borderColor: "#E8E8E8",
-    fontSize: 16,
-    borderBottomWidth: 1,
-    marginBottom: 16,
+  inputContainer: {
+    marginTop: 32,
   },
-  focusedInput: {
-    borderColor: "#FF6C00",
-    // borderWidth: 2,
-    // color: "#000",
-    color: "#FF6C00",
+  input: {
+    gap: 16,
+    borderBottomWidth: 1,
+    paddingTop: 16,
+    paddingBottom: 15,
+    // fontFamily: "Roboto-Regular",
+    fontSize: 16,
+    borderBottomColor: "#E8E8E8",
+    color: "#212121",
   },
   ico: {
     position: "absolute",
     top: 10,
   },
   inputLoc: {
+    position: "relative",
+    flexDirection: "row",
     height: 50,
-    color: "#212121",
+    // color: "#212121",
     borderColor: "#E8E8E8",
     fontSize: 16,
     borderBottomWidth: 1,
-    marginBottom: 16,
+    // marginBottom: 16,
     paddingLeft: 30,
   },
-  button: {
-    // backgroundColor: "#FF6C00",
-    // backgroundColor: "#F6F6F6",
-    borderRadius: 100,
-    marginTop: 16,
-    marginBottom: 70,
+  inputL: {
+    gap: 16,
+    // borderBottomWidth: 1,
     paddingTop: 16,
-    paddingBottom: 16,
-    paddingLeft: 32,
-    paddingRight: 32,
-  },
-  // focusedButton: {
-  //   borderColor: "#FF6C00",
-  //   // borderWidth: 2,
-  //   // color: "#000",
-  //   color: "#FF6C00",
-  // },
-  btnText: {
+    paddingBottom: 15,
+    // fontFamily: "Roboto-Regular",
     fontSize: 16,
-    // color: "#fff",
-    // color: "#BDBDBD",
-    textAlign: "center",
+    // borderBottomColor: "#E8E8E8",
+    color: "#212121",
   },
-  delButton: {
-    // backgroundColor: "#FF6C00",
-    alignSelf: "center",
-    backgroundColor: "#F6F6F6",
+
+  button: {
+    paddingVertical: 16,
+    paddingHorizontal: 32,
+    marginTop: 32,
+    borderRadius: 100,
+    marginBottom: 70,
+  },
+
+  buttonTitle: {
+    textAlign: "center",
+    fontSize: 16,
+    // fontFamily: "Roboto-Regular",
+    lineHeight: 19,
+  },
+  previewImage: {
+    height: 240,
+    borderRadius: 8,
+  },
+  buttonDelete: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 70,
+    height: 40,
     borderRadius: 20,
-    paddingTop: 8,
-    paddingBottom: 8,
-    paddingLeft: 23,
-    paddingRight: 23,
-    marginBottom: 20,
+    backgroundColor: "#F6F6F6",
     // justifyContent: "flex-end",
-    // alignItems: "center",
-    // justifyContent: "center",
   },
 });
 
