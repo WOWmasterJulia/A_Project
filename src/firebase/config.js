@@ -1,12 +1,23 @@
 // Для роботи із firebase обовʼязково треба ініціалізувати проект
 import { initializeApp } from "firebase/app";
 // Функція для підключення авторизації в проект
-import { getAuth } from "firebase/auth";
+// import { getAuth } from "firebase/auth";
+
 // Функція для підключення бази даних у проект
 import { getFirestore } from "firebase/firestore";
 // Функція для підключення сховища файлів в проект
 import { getStorage } from "firebase/storage";
-import { getAnalytics } from "firebase/analytics";
+// import { getAnalytics } from "firebase/analytics";
+
+// add WARN from EXPO
+import {
+  initializeAuth,
+  getReactNativePersistence,
+  getAuth,
+} from "firebase/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+// const auth = initializeAuth(app, { persistence: getReactNativePersistence(ReactNativeAsyncStorage)
+// });
 
 const firebaseConfig = {
   apiKey: "AIzaSyBLcnU0RdW7H1JjYHmmhmUOlnB2iNDVqSk",
@@ -19,20 +30,21 @@ const firebaseConfig = {
 };
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+// const analytics = getAnalytics(app);
 
-export const auth = getAuth(app);
+export const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(AsyncStorage),
+});
+// export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 
+// const { getDefaultConfig } = require("@expo/metro-config");
 
-const { getDefaultConfig } = require("@expo/metro-config");
+// const defaultConfig = getDefaultConfig(__dirname);
+// defaultConfig.resolver.assetExts.push("cjs");
 
-const defaultConfig = getDefaultConfig(__dirname);
-defaultConfig.resolver.assetExts.push("cjs");
-
-module.exports = defaultConfig;
-
+// module.exports = defaultConfig;
 
 // // Import the functions you need from the SDKs you need
 // import { initializeApp } from "firebase/app";

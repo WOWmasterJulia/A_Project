@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   StyleSheet,
   ImageBackground,
-  Image,
-  Alert,
   Text,
   TextInput,
   View,
@@ -11,44 +9,115 @@ import {
   Platform,
   TouchableWithoutFeedback,
   Keyboard,
-  Button,
-  TouchableHighlight,
   Pressable,
 } from "react-native";
 import Background from "../assets_new/photos/Photo_BG.png";
 
 import { useNavigation } from "@react-navigation/native";
 
+import { useDispatch } from "react-redux";
+import * as ImagePicker from "expo-image-picker";
+import { ImageUser } from "./ImageUser";
+import { auth, storage } from "../firebase/config";
+import { createUser } from "../redux/authSlice";
+import { logIn } from "../redux/authSlice";
+import { updateProfile, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  uploadAvatarToServer,
+  loginDB,
+} from "../firebase/postsFirebaseOperation";
+
+const initialState = {
+  photoURL: null,
+  displayName: null,
+  email: null,
+  password: null,
+};
+
+// const Registration = () => {
+//   const [login, setLogin] = useState("");
+//   const [email, setEmail] = useState("");
+//   const [password, setPassword] = useState("");
+
+//   const [focused, setFocused] = useState(null);
+
+//   const navigation = useNavigation();
+//   //Показати та сховати пароль
+//   const [secureTextEntry, setSecureTextEntry] = useState(true);
+//   const togglePassword = () => {
+//     setSecureTextEntry(!secureTextEntry);
+//   };
+//   const madeAva = () => {
+//     <PhotoCamera />;
+//   };
+
+//   // отримання даних з форми
+//   const newRegistration = () => {
+//     console.log({ login, email, password });
+//     Alert.alert(
+//       "Login, Email and Password :",
+//       `${login}, ${email} and ${password}`
+//     );
+//     // navigation.navigate("Post");
+//     navigation.navigate("Home");
+//     // очищення форми
+//     setLogin("");
+//     setEmail("");
+//     setPassword("");
+//   };
+
 const Registration = () => {
-  const [login, setLogin] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-const [focused, setFocused] = useState(null);
-
+  const [state, setState] = useState(initialState);
+  const [visiblePassword, setVisiblePassword] = useState(true);
+  const [focused, setFocused] = useState(null);
   const navigation = useNavigation();
-  //Показати та сховати пароль
-  const [secureTextEntry, setSecureTextEntry] = useState(true);
-  const togglePassword = () => {
-    setSecureTextEntry(!secureTextEntry);
-  };
-  const madeAva = () => {
-    <PhotoCamera />;
-  };
+  const dispatch = useDispatch();
 
-  // отримання даних з форми
-  const newRegistration = () => {
-    console.log({ login, email, password });
-    Alert.alert(
-      "Login, Email and Password :",
-      `${login}, ${email} and ${password}`
-    );
-    // navigation.navigate("Post");
-    navigation.navigate("Home");
-    // очищення форми
-    setLogin("");
-    setEmail("");
-    setPassword("");
+  // console.log("State", state);
+
+  const onCheckRegistration = async () => {
+    const { displayName, email, password, photoURL } = state;
+    if (displayName && email && password && photoURL) {
+      const test = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+        // photoURL
+      );
+      const { uid } = await loginDB({
+        email,
+        password,
+      });
+      const storageAvatar = await loadAvatarToServer(photoURL, uid);
+      await setState((prev) => ({ ...prev, photoURL: storageAvatar }));
+      await updateProfile(auth.currentUser, {
+        displayName: displayName,
+        photoURL: storageAvatar,
+      });
+
+      dispatch(logIn({ email, displayName, uid, photoURL })); // записывает в Редакс Стор локальный стейт (данные юзера), после регистрации в Базе
+      setState(initialState);
+      navigation.navigate("Home");
+    }
+  };
+  const pickImageAsync = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      quality: 1,
+    });
+    // console.log("registration result", result.assets[0].uri);
+    if (!result.canceled) {
+      const photoURL = result.assets[0].uri;
+      setState((prev) => ({ ...prev, photoURL }));
+    } else {
+      alert("You did not select any image.");
+    }
+    // if (!result.canceled) {
+    //   const photoURL = await uploadAvatarToServer(result.assets[0].uri);
+    //   setState((prev) => ({ ...prev, photoURL }));
+    // } else {
+    //   alert("You did not select any image.");
+    // }
   };
 
   return (
@@ -74,14 +143,18 @@ const [focused, setFocused] = useState(null);
                   <TextInput
                     // style={styles.input}
                     style={
-                      focused === "login"
+                      focused === "name"
                         ? { ...styles.input, ...styles.focusedInput }
                         : { ...styles.input }
                     }
                     placeholder="Логін"
-                    value={login}
-                    onChangeText={setLogin}
-                    onFocus={() => setFocused("login")}
+                    // value={login}
+                    // onChangeText={setLogin}
+                    onChangeText={(value) =>
+                      setState((prev) => ({ ...prev, displayName: value }))
+                    }
+                    value={state.displayName}
+                    onFocus={() => setFocused("name")}
                     onBlur={() => setFocused(null)}
                   />
                   <TextInput
@@ -92,8 +165,12 @@ const [focused, setFocused] = useState(null);
                         : { ...styles.input }
                     }
                     placeholder="Адреса електронної пошти"
-                    value={email}
-                    onChangeText={setEmail}
+                    // value={email}
+                    // onChangeText={setEmail}
+                    onChangeText={(value) =>
+                      setState((prev) => ({ ...prev, email: value }))
+                    }
+                    value={state.email}
                     onFocus={() => setFocused("email")}
                     onBlur={() => setFocused(null)}
                   />
@@ -106,49 +183,75 @@ const [focused, setFocused] = useState(null);
                           : { ...styles.input }
                       }
                       placeholder="Пароль"
-                      value={password}
-                      onChangeText={setPassword}
-                      // secureTextEntry={true}
-                      secureTextEntry={secureTextEntry}
+                      // value={password}
+                      // onChangeText={setPassword}
+                      // // secureTextEntry={true}
+                      // secureTextEntry={secureTextEntry}
+                      autoComlete="password"
+                      secureTextEntry={visiblePassword}
+                      editable
+                      numberOfLines={1}
+                      maxLength={40}
+                      onChangeText={(value) =>
+                        setState((prev) => ({ ...prev, password: value }))
+                      }
+                      value={state.password}
                       onFocus={() => setFocused("password")}
                       onBlur={() => setFocused(null)}
                     />
-                    <Pressable
+                    {state.password && (
+                      <Pressable
+                        style={styles.buttonSee}
+                        onPress={() => setVisiblePassword(!visiblePassword)}
+                      >
+                        <Text style={styles.text}>
+                          {visiblePassword ? "Показати" : "Сховати"}
+                        </Text>
+                      </Pressable>
+                    )}
+                    {/* <Pressable
                       style={styles.buttonSee}
                       onPress={togglePassword}
-                    >
-                      {/* <Text style={styles.text}>Показати</Text> */}
-                      <Text style={styles.text}>
+                    > */}
+                    {/* <Text style={styles.text}>Показати</Text> */}
+                    {/* <Text style={styles.text}>
                         {secureTextEntry ? "Показати" : "Сховати"}
                       </Text>
-                    </Pressable>
+                    </Pressable> */}
                   </View>
                 </View>
               </KeyboardAvoidingView>
 
               <View style={styles.imageWrap}>
-                <Image
+                <ImageUser
+                  style={styles.image}
+                  state={state}
+                  onPress={pickImageAsync}
+                  onDelete={setState}
+                />
+                {/* <Image
                   source={require("../assets_new/photos/Add_Ava.png")}
                   resizeMode="cover"
                   style={styles.image}
                 ></Image>
                 <Pressable
-                  style={styles.buttonAdd}
-                  // onPress={() => PhotoCamera!!!!!}
+                  style={styles.buttonAdd} */}
+                {/* // onPress={() => PhotoCamera!!!!!}
                   // onPress={() => Alert.alert("Take a picture for avatar!")}
-                >
-                  <Image
+                > */}
+                {/* <Image
                     source={require("../assets_new/icons/add.png")}
                     style={styles.btnAdd}
                   ></Image>
-                </Pressable>
+                </Pressable> */}
               </View>
 
               <View style={styles.btnWrap}>
                 <Pressable
                   style={styles.buttonRegistration}
                   // onPress={() => navigation.navigate("Posts")}
-                  onPress={newRegistration}
+                  // onPress={newRegistration}
+                  onPress={onCheckRegistration}
                 >
                   <Text style={styles.btnReg}>Зареєстуватися</Text>
                 </Pressable>
@@ -191,14 +294,14 @@ const styles = StyleSheet.create({
   imageWrap: {
     position: "absolute",
     alignSelf: "center",
-    marginTop: -60,
+    // marginTop: -60,
   },
-  image: {
-    width: 132,
-    height: 132,
-    alignSelf: "center",
-    position: "absolute",
-  },
+  // image: {
+  //   width: 132,
+  //   height: 132,
+  //   alignSelf: "center",
+  //   position: "absolute",
+  // },
   buttonAdd: {
     // position: 'absolute',
     marginTop: 80,

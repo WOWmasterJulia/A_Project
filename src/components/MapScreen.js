@@ -1,15 +1,24 @@
 import React from "react";
-import { View, Text, StyleSheet, Dimensions, Pressable, Image } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Pressable,
+  Image,
+} from "react-native";
 import MapView, { Marker } from "react-native-maps";
 
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 // import Photo_1 from "./assets_new/photos/Photo_1.png";
-import Photo_2 from "../assets_new/photos/Photo_2.png";
+// import Photo_2 from "../assets_new/photos/Photo_2.png";
 
 const Map = ({ route: { params } }) => {
   const navigation = useNavigation();
   const { photo, namePost, latitude, longitude } = params;
+
+  console.log("params map", namePost);
 
   return (
     <View style={styles.container}>
@@ -38,9 +47,12 @@ const Map = ({ route: { params } }) => {
           coordinate={{ latitude: latitude, longitude: longitude }}
         >
           <Image
-            source={Photo_2}
-            style={{ width: 50, height: 50, borderRadius: 8 }}
+            // source={Photo_2}
+            // style={{ width: 50, height: 50, borderRadius: 8 }}
+            source={{ uri: photo }}
+            style={{ width: 100, height: 100, borderRadius: 8 }}
           />
+          <Text style={styles.titleMarker}>{namePost}</Text>
         </Marker>
       </MapView>
     </View>
@@ -66,6 +78,12 @@ const styles = StyleSheet.create({
     fontSize: 17,
     paddingBottom: 5,
     marginLeft: 120,
+  },
+  titleMarker: {
+    // backgroundColor: "#FFFFFF",
+    // fontFamily: "Roboto-Medium",
+    fontSize: 12,
+    paddingBottom: 5,
   },
   pressLogoff: {
     alignSelf: "center",

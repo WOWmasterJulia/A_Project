@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   StyleSheet,
   ImageBackground,
@@ -14,26 +14,51 @@ import {
   Pressable,
   FlatList,
 } from "react-native";
-import { useNavigation } from '@react-navigation/native';
-// import Comments from "./CommentsScreen.js";
+import { useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser } from "../redux/selectors";
 import { Feather } from "@expo/vector-icons";
-import Photo_2 from "../assets_new/photos/Photo_2.png";
+import { postsCollectionRef } from "../firebase/postsFirebaseOperation";
+import { onSnapshot, query, orderBy } from "firebase/firestore";
+// import Photo_2 from "../assets_new/photos/Photo_2.png";
+import { auth } from "../firebase/config";
+import { logOut } from "../redux/authSlice";
 
 const Post = () => {
-    
+  const [post, setPost] = useState([]);
   const navigation = useNavigation();
-  const post = [
-    {
-      id: 1,
-      photo: "../assets_new/photos/Photo_2.png",
-      namePost: "Kyev sea",
-      latitude: 50.420985224801235,
-      longitude: 30.4675226163555,
-      convertedCoordinate: { region: "Kyev", country: "Ukraine" },
-      commentsCount: 15,
-    },
-  ];
+  const dispatch = useDispatch();
+  const authState = useSelector(selectUser);
 
+  // console.log("authState", authState);
+
+  useEffect(() => {
+    const q = query(postsCollectionRef, orderBy("createdatetime", "desc"));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const newData = snapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      //console.log('newdata - ', newData);
+      setPost(newData);
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  const userLogOut = () => {
+    auth
+      .signOut()
+      .then(() => {
+        dispatch(logOut());
+        navigation.navigate("Login");
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
 
   return (
     <View style={styles.container}>
@@ -41,7 +66,8 @@ const Post = () => {
         <Text style={styles.title}>Публікації</Text>
         <Pressable
           style={styles.logOut}
-          onPress={() => navigation.navigate("Login")}
+          // onPress={() => navigation.navigate("Login")}
+          onPress={userLogOut}
         >
           <Image source={require("../assets_new/icons/log-out.png")} />
         </Pressable>
@@ -49,13 +75,16 @@ const Post = () => {
 
       <View style={styles.profileWrap}>
         <Image
-          source={require("../assets_new/photos/Ava_Romanova.png")}
-          resizeMode="cover"
-          style={styles.image}
+          // source={require("../assets_new/photos/Ava_Romanova.png")}
+          source={{ uri: authState.photoURL }}
+          // resizeMode="cover"
+          style={styles.imageAvatar}
         ></Image>
-        <View style={styles.userInfotWrap}>
-          <Text style={styles.name}>Natali Romanova</Text>
-          <Text style={styles.email}>email@example.com</Text>
+        <View style={styles.userInfoWrap}>
+          {/* <Text style={styles.name}>Natali Romanova</Text>
+          <Text style={styles.email}>email@example.com</Text> */}
+          <Text style={styles.name}>{authState.displayName}</Text>
+          <Text style={styles.email}>{authState.email}</Text>
         </View>
       </View>
       {/* <Pressable
@@ -76,16 +105,19 @@ const Post = () => {
             id,
             photo,
             namePost,
-            latitude,
-            longitude,
+            // latitude,
+            // longitude,
+            location: { latitude, longitude },
             convertedCoordinate: { region, country },
             commentsCount,
+            uid,
           },
         }) => {
           return (
-            <View style={styles.subContainer}>
+            <View style={styles.subContainer} key={id}>
               <View style={styles.imageContainer}>
-                <Image source={Photo_2} style={styles.image} />
+                {/* <Image source={Photo_2} style={styles.image} /> */}
+                <Image source={{ uri: photo }} style={styles.imagePost} />
               </View>
               <Text style={[{ ...styles.text, ...styles.namePost }]}>
                 {namePost}
@@ -93,7 +125,14 @@ const Post = () => {
               <View style={styles.infoThumb}>
                 <Pressable
                   style={styles.info}
-                  onPress={() => navigation.navigate("Comments")}
+                  onPress={() =>
+                    navigation.navigate("Comments", {
+                      photo,
+                      namePost,
+                      id,
+                      uid,
+                    })
+                  }
                 >
                   <Feather
                     name="message-circle"
@@ -175,14 +214,15 @@ const styles = StyleSheet.create({
     // gap: 8,
     flexDirection: "row",
     marginTop: 32,
-
     paddingLeft: 16,
   },
-  // image: {
-  //   width: 60,
-  //   height: 60,
-  // },
-  userInfotWrap: {
+  imageAvatar: {
+    width: 60,
+    height: 60,
+    borderRadius: 16,
+    marginBottom: 10,
+  },
+  userInfoWrap: {
     flexDirection: "column",
     paddingLeft: 8,
   },
@@ -201,8 +241,12 @@ const styles = StyleSheet.create({
   subContainer: {
     paddingHorizontal: 16,
     marginBottom: 32,
-    marginTop: 10,
+    // marginTop: 10,
     // alignItems: "center",
+  },
+  imagePost: {
+    height: 240,
+    borderRadius: 8,
   },
   text: {
     fontSize: 16,

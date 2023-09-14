@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
 import {
   StyleSheet,
   ImageBackground,
@@ -13,32 +13,78 @@ import {
   Keyboard,
   Pressable,
 } from "react-native";
-import Background from '../assets_new/photos/Photo_BG.png';
-import { useNavigation } from '@react-navigation/native';
+import Background from "../assets_new/photos/Photo_BG.png";
+import { useNavigation } from "@react-navigation/native";
+
+import { useDispatch } from "react-redux";
+// import { selectUser } from "../redux/selectors";
+
+import { logIn } from "../redux/authSlice";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase/config";
+// import { useWindowDimensions } from 'react-native';
+
+// const Login = () => {
+//   const [email, setEmail] = useState("");
+//   const [password, setPassword] = useState("");
+
+//   // const [visiblePassword, setVisiblePassword] = useState(true);
+//   const [focused, setFocused] = useState(null);
+//   const navigation = useNavigation();
+
+//   //Показати та сховати пароль
+//   const [secureTextEntry, setSecureTextEntry] = useState(true);
+//   const togglePassword = () => {
+//     setSecureTextEntry(!secureTextEntry);
+//   };
+
+//   // отримання даних з форми
+//   const onLogin = () => {
+//     console.log({ email, password });
+//     Alert.alert("Email and Password :", `${email} and ${password}`);
+//     // navigation.navigate("Post");
+//     navigation.navigate("Home");
+//     // очищення форми
+//     setEmail("");
+//     setPassword("");
+//   };
+const initialState = {
+  email: "",
+  password: "",
+};
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  // const [visiblePassword, setVisiblePassword] = useState(true);
+  const [state, setState] = useState(initialState);
+  const [visiblePassword, setVisiblePassword] = useState(true);
   const [focused, setFocused] = useState(null);
   const navigation = useNavigation();
-  
-  //Показати та сховати пароль
-  const [secureTextEntry, setSecureTextEntry] = useState(true);
-  const togglePassword = () => {
-    setSecureTextEntry(!secureTextEntry);
+  const dispatch = useDispatch();
+
+  const loginDB = async ({ email, password }) => {
+    try {
+      const credentials = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      // console.log("loginDB", credentials);
+      return credentials.user;
+    } catch (error) {
+      throw error;
+    }
   };
 
-  // отримання даних з форми
-  const onLogin = () => {
-    console.log({ email, password });
-    Alert.alert("Email and Password :", `${email} and ${password}`);
-    // navigation.navigate("Post");
-    navigation.navigate("Home");
-    // очищення форми
-    setEmail("");
-    setPassword("");
+  const onCheckLogin = async () => {
+    const { email, password } = state;
+    // console.log('email', email);
+    if (email && password) {
+      const { emailCr, displayName, uid, photoURL } = await loginDB({
+        email,
+        password,
+      });
+      dispatch(logIn({ email, displayName, uid, photoURL }));
+      navigation.navigate("Home");
+    }
   };
 
   return (
@@ -63,8 +109,15 @@ const Login = () => {
                     : { ...styles.input }
                 }
                 placeholder="Адреса електронної пошти"
-                value={email}
-                onChangeText={setEmail}
+                // value={email}
+                // onChangeText={setEmail}
+                editable
+                numberOfLines={1}
+                maxLength={40}
+                onChangeText={(value) =>
+                  setState((prev) => ({ ...prev, email: value }))
+                }
+                value={state.email}
                 onFocus={() => setFocused("email")}
                 onBlur={() => setFocused(null)}
               />
@@ -77,27 +130,45 @@ const Login = () => {
                       : { ...styles.input }
                   }
                   placeholder="Пароль"
-                  value={password}
-                  onChangeText={setPassword}
-                  // secureTextEntry={true}
-                  secureTextEntry={secureTextEntry}
+                  // value={password}
+                  // onChangeText={setPassword}
+                  // // secureTextEntry={true}
+                  // secureTextEntry={secureTextEntry}
+                  autoComlete="password"
+                  secureTextEntry={visiblePassword}
+                  editable
+                  numberOfLines={1}
+                  maxLength={40}
+                  onChangeText={(value) =>
+                    setState((prev) => ({ ...prev, password: value }))
+                  }
+                  value={state.password}
                   onFocus={() => setFocused("password")}
                   onBlur={() => setFocused(null)}
                 />
-                <Pressable
+                {state.password && (
+                  <Pressable
+                    style={styles.buttonSee}
+                    onPress={() => setVisiblePassword(!visiblePassword)}
+                  >
+                    <Text>{visiblePassword ? "Показати" : "Сховати"}</Text>
+                  </Pressable>
+                )}
+                {/* <Pressable
                   style={styles.buttonSee}
                   // onPress={() => alert(1)}
                   onPress={togglePassword}
-                >
-                  {/* <Text style={styles.text}>Показати</Text> */}
-                  <Text>{secureTextEntry ? "Показати" : "Сховати"}</Text>
-                </Pressable>
+                > */}
+                {/* <Text style={styles.text}>Показати</Text> */}
+                {/* <Text>{secureTextEntry ? "Показати" : "Сховати"}</Text>
+                </Pressable> */}
               </View>
 
               <Pressable
                 style={styles.buttonLogin}
                 // onPress={() => navigation.navigate("Registration")}
-                onPress={onLogin}
+                // onPress={onLogin}
+                onPress={onCheckLogin}
               >
                 <Text style={styles.btnLog}>Увійти</Text>
               </Pressable>
@@ -116,7 +187,7 @@ const Login = () => {
       </TouchableWithoutFeedback>
     </ImageBackground>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

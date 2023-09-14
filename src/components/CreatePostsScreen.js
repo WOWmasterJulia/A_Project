@@ -12,7 +12,7 @@ import {
   Platform,
   TouchableWithoutFeedback,
 } from "react-native";
-import Toast from "react-native-toast-message";
+
 import { useNavigation } from "@react-navigation/native";
 import * as Location from "expo-location";
 import * as MediaLibrary from "expo-media-library";
@@ -23,9 +23,18 @@ import {
   AntDesign,
   Ionicons,
 } from "@expo/vector-icons";
-import { SimpleLineIcons } from "@expo/vector-icons";
+
+//import { selectAuthState } from "../redux/auth/authSelectors";
+import { addPost } from "../redux/postSlice";
+import {
+  addPostFirebase,
+  loadPhotoToServer,
+} from "../firebase/postsFirebaseOperation";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser } from "../redux/selectors";
 
 const CreatePostsScreen = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const [hasPermission, setHasPermission] = useState(null);
   const [location, setLocation] = useState(null);
@@ -33,6 +42,9 @@ const CreatePostsScreen = () => {
   const [capturedPhoto, setCapturedPhoto] = useState(null);
   const [namePost, setNamePost] = useState("");
   const [isDisabledPublishBtn, setIsDisabledPublishBtn] = useState(false);
+
+  const authState = useSelector(selectUser);
+  // console.log("Create authState ", authState.uid);
 
   useEffect(() => {
     (async () => {
@@ -62,23 +74,22 @@ const CreatePostsScreen = () => {
   }
 
   const openCamera = async () => {
-    const result = await ImagePicker.launchCameraAsync();
-
-    if (!result.canceled && result.assets.length > 0) {
-      await MediaLibrary.createAssetAsync(result.assets[0].uri);
-      setCapturedPhoto(result.assets[0].uri);
-
-      const { coords } = await Location.getCurrentPositionAsync();
-      setLocation(coords);
-
-      const address = await Location.reverseGeocodeAsync({
-        latitude: coords.latitude,
-        longitude: coords.longitude,
-      });
-      console.log(address);
-
-      const { region, country } = address[0];
-      setConvertedCoordinate({ region, country });
+    try {
+      const result = await ImagePicker.launchCameraAsync();
+      if (!result.canceled && result.assets.length > 0) {
+        const test = await MediaLibrary.createAssetAsync(result.assets[0].uri);
+        setCapturedPhoto(result.assets[0].uri);
+        const { coords } = await Location.getCurrentPositionAsync({});
+        setLocation(coords);
+        const address = await Location.reverseGeocodeAsync({
+          latitude: coords.latitude,
+          longitude: coords.longitude,
+        });
+        const { region, country } = address[0];
+        setConvertedCoordinate({ region, country });
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -99,20 +110,74 @@ const CreatePostsScreen = () => {
     }
   };
 
-  const publishPhoto = () => {
-    if (location) {
-      console.log({
-        capturedPhoto,
-        namePost,
-        location,
-        convertedCoordinate,
-      });
-      setCapturedPhoto(null);
-      setNamePost("");
-      setLocation(null);
-      setConvertedCoordinate(null);
-      navigation.navigate("Post");
+  // const publishPhoto = () => {
+  //   if (location) {
+  //     console.log({
+  //       capturedPhoto,
+  //       namePost,
+  //       location,
+  //       convertedCoordinate,
+  //     });
+  //     setCapturedPhoto(null);
+  //     setNamePost("");
+  //     setLocation(null);
+  //     setConvertedCoordinate(null);
+  //     navigation.navigate("Post");
+  //   }
+  // };
+
+  const publishPhoto = async () => {
+    try {
+      let geoLocation = await Location.getCurrentPositionAsync({});
+      if (location) {
+        const photoFilename = Date.now().toString();
+        const photo = await loadPhotoToServer(capturedPhoto, photoFilename);
+        // console.log("loadPhoto to Storage 2", photo);
+        const coords = {
+          latitude: geoLocation.coords.latitude,
+          longitude: geoLocation.coords.longitude,
+        };
+        setLocation(coords);
+        const date = new Date();
+        const testAnswer = await addPostFirebase({
+          createdatetime: date,
+          uid: authState.uid,
+          namePost,
+          convertedCoordinate,
+          photo,
+          photoFilename,
+          location: {
+            latitude: coords.latitude,
+            longitude: coords.longitude,
+          },
+          commentsCount: 0,
+        });
+        dispatch(
+          addPost({
+            namePost,
+            convertedCoordinate,
+            photo,
+            location,
+            commentsNumber: 0,
+          })
+        );
+        navigation.navigate("Post");
+        setCapturedPhoto(null);
+        setNamePost("");
+        setLocation(null);
+        setConvertedCoordinate(null);
+      }
+    } catch (error) {
+      console.log(error);
     }
+  };
+
+  const goBackPost = () => {
+    setCapturedPhoto(null);
+    setNamePost("");
+    setLocation(null);
+    setConvertedCoordinate(null);
+    navigation.navigate("Post");
   };
 
   return (
@@ -126,7 +191,8 @@ const CreatePostsScreen = () => {
             <View style={styles.header}>
               <Pressable
                 style={styles.pressLogoff}
-                onPress={() => navigation.navigate("Post")}
+                // onPress={() => navigation.navigate("Post")}
+                onPress={goBackPost}
               >
                 <AntDesign name="arrowleft" size={22} color="black" />
               </Pressable>
@@ -249,7 +315,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     flex: 1,
     // justifyContent: "space-between",
-    justifyContent: "flex-end",
+
+    // justifyContent: "flex-end",
   },
   header: {
     flexDirection: "row",
@@ -263,7 +330,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     fontSize: 17,
     paddingBottom: 5,
-    marginLeft: 30,
+    marginLeft: 60,
     // alignSelf: 'center',
     // justifyContent: 'center',
   },

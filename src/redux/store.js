@@ -25,7 +25,6 @@ const persistAuthConfig = {
 const persistedPostsReducer = persistReducer(persistPostsConfig, postsReducer);
 const persistedAuthReducer = persistReducer(persistAuthConfig, authReducer);
 
-
 export const store = configureStore({
   reducer: {
     posts: persistedPostsReducer,
@@ -39,4 +38,6 @@ export const store = configureStore({
     }),
 });
 
-export const persistor = persistStore(store);
+// export const persistor = persistStore(store);
+const persistor = persistStore(store);
+export default { store, persistor };

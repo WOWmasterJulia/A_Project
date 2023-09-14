@@ -1,22 +1,22 @@
 import "react-native-gesture-handler";
 import React from "react";
+
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { StyleSheet, Button, View, ImageBackground } from 'react-native';
 
-import { useFonts } from "expo-font";
-import Registration from "./src/components/RegistrationScreen";
-import Login from "./src/components/LoginScreen";
-// import Post from './src/components/PostsScreen';
+import Registration from "./src/components/RegistrationScreen.js";
+import Login from "./src/components/LoginScreen.js";
 import Home from "./src/components/Home";
-// import PhotoCamera from "./src/components/PhotoCamera";
 import Comments from "./src/components/CommentsScreen";
 import CreatePostsScreen from "./src/components/CreatePostsScreen";
 import Map from "./src/components/MapScreen";
+import EditPostScreen from "./src/components/EditPostScreen";
 
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import { store } from "./redux/store";
+import { store, persistor } from "./src/redux/store";
+
+import { useFonts } from "expo-font";
 
 const MainStack = createStackNavigator(); // вказує на групу навігаторів
 export default function App() {
@@ -29,29 +29,26 @@ export default function App() {
   // }
   return (
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <NavigationContainer>
-          <MainStack.Navigator
-            initialRouteName="Login"
-            screenOptions={{ headerShown: false }}
-          >
-            <MainStack.Screen name="Registration" component={Registration} />
-            <MainStack.Screen name="Login" component={Login} />
-            {/* <MainStack.Screen name="Post" component={Post} /> */}
-            <MainStack.Screen name="Home" component={Home} />
-            <MainStack.Screen name="Comments" component={Comments} />
-            <MainStack.Screen
-              name="createPostsScreen"
-              component={CreatePostsScreen}
-            />
-            <MainStack.Screen name="Map" component={Map} />
-          </MainStack.Navigator>
-        </NavigationContainer>
-      </PersistGate>
+      {/* <PersistGate loading={null} persistor={persistor}> */}
+      <NavigationContainer>
+        <MainStack.Navigator
+          initialRouteName="Login"
+          screenOptions={{ headerShown: false }}
+        >
+          <MainStack.Screen name="Registration" component={Registration} />
+          <MainStack.Screen name="Login" component={Login} />
+          <MainStack.Screen name="Home" component={Home} />
+          <MainStack.Screen name="Comments" component={Comments} />
+          <MainStack.Screen
+            name="createPostsScreen"
+            component={CreatePostsScreen}
+          />
+          <MainStack.Screen name="Map" component={Map} />
+          <MainStack.Screen name="EditPostScreen" component={EditPostScreen} />
+        </MainStack.Navigator>
+      </NavigationContainer>
+      {/* </PersistGate> */}
     </Provider>
   );
 }
 // a-project-native-1
-
-
-
