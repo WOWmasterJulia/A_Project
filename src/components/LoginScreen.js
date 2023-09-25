@@ -60,6 +60,7 @@ const Login = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
+  const [loading, setLoading] = useState(true);
 //
 //   useEffect(() => {
 //   //  const test1 = onAuthStateChanged((user) => {
@@ -67,14 +68,46 @@ const Login = () => {
 //     //  });
 //     const test1 = authStateChanged();
 //    console.log(test1);
-//  }, []); 
+//  }, []);
 
-const authStateChanged = async (onChange = () => {}) => {
-  onAuthStateChanged((user) => {
-    onChange(user);
+// const authStateChanged = async (onChange = () => {}) => {
+//   onAuthStateChanged((user) => {
+//     onChange(user);
+//   });
+// };
+  //
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged((user) => {
+  //     if (user) {
+  //       // Користувач автентифікований, перенаправте його на сторінку постів
+  //       navigation.navigate("Posts");
+  //     } else {
+  //       // Користувач не автентифікований, можливо, ви хочете щось інше робити тут
+  //     }
+  //   });
+
+  //   // Не забудьте відписатися від прослуховування, коли компонент розмонтується
+  //   return unsubscribe;
+  // }, []);
+
+
+useEffect(() => {
+  const unsubscribe = auth.onAuthStateChanged((user) => {
+    setLoading(false);
+    if (user) {
+      // navigation.navigate('Post');
+      //navigation.navigate('PostsScreen');
+      navigation.navigate("Home");
+    }
   });
-};
-//
+  return () => {
+    unsubscribe();
+  };
+}, []);
+
+
+
+
   const loginDB = async ({ email, password }) => {
     try {
       const credentials = await signInWithEmailAndPassword(
