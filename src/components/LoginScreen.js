@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   ImageBackground,
@@ -20,7 +20,7 @@ import { useDispatch } from "react-redux";
 // import { selectUser } from "../redux/selectors";
 
 import { logIn } from "../redux/authSlice";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase/config";
 // import { useWindowDimensions } from 'react-native';
 
@@ -60,6 +60,21 @@ const Login = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
+//
+//   useEffect(() => {
+//   //  const test1 = onAuthStateChanged((user) => {
+//   //    onChange(user);
+//     //  });
+//     const test1 = authStateChanged();
+//    console.log(test1);
+//  }, []); 
+
+const authStateChanged = async (onChange = () => {}) => {
+  onAuthStateChanged((user) => {
+    onChange(user);
+  });
+};
+//
   const loginDB = async ({ email, password }) => {
     try {
       const credentials = await signInWithEmailAndPassword(
@@ -73,7 +88,7 @@ const Login = () => {
       throw error;
     }
   };
-
+  //  При нажатии на кнопку вызов onCheckLogin  и в ней loginDB (для проверки в базе наличия этого пользователя)
   const onCheckLogin = async () => {
     const { email, password } = state;
     // console.log('email', email);

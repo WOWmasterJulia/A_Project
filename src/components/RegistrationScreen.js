@@ -15,15 +15,15 @@ import Background from "../assets_new/photos/Photo_BG.png";
 
 import { useNavigation } from "@react-navigation/native";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as ImagePicker from "expo-image-picker";
 import { ImageUser } from "./ImageUser";
 import { auth, storage } from "../firebase/config";
-import { createUser } from "../redux/authSlice";
+// import { createUser } from "../redux/authSlice";
 import { logIn } from "../redux/authSlice";
 import { updateProfile, createUserWithEmailAndPassword } from "firebase/auth";
 import {
-  uploadAvatarToServer,
+  loadAvatarToServer,
   loginDB,
 } from "../firebase/postsFirebaseOperation";
 
@@ -72,7 +72,7 @@ const Registration = () => {
   const [focused, setFocused] = useState(null);
   const navigation = useNavigation();
   const dispatch = useDispatch();
-
+  // const authState = useSelector(selectUser);
   // console.log("State", state);
 
   const onCheckRegistration = async () => {
