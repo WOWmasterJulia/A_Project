@@ -29,9 +29,15 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../redux/selectors";
 
+//
+// import { deletePostFirebase } from "../firebase/postsFirebaseOperation";
+
+
 const EditPostScreen = ({ route: { params } }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  //
+  // const postId = id;
   const [hasPermission, setHasPermission] = useState(null);
   const [location, setLocation] = useState(params.location);
   const [convertedCoordinate, setConvertedCoordinate] = useState(
@@ -40,6 +46,8 @@ const EditPostScreen = ({ route: { params } }) => {
   const [capturedPhoto, setCapturedPhoto] = useState(params.photo);
   const [namePost, setNamePost] = useState(params.namePost);
   const [isDisabledPublishBtn, setIsDisabledPublishBtn] = useState(false);
+
+  
 
   const authState = useSelector(selectUser);
   // console.log('authState ',authState.uid)
@@ -157,6 +165,17 @@ const EditPostScreen = ({ route: { params } }) => {
     navigation.navigate("Profile");
   };
 
+  //
+// const handleDeletePost = async (id) => {
+//   try {
+//     deletePostFirebase(id);
+//     alert("Deleted succesufully");
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+ // 
+
   return (
     <View style={styles.container}>
       <View>
@@ -242,6 +261,7 @@ const EditPostScreen = ({ route: { params } }) => {
       >
         <Pressable
           style={styles.buttonDelete}
+          // onPress={() => handleDeletePost(postId)}
           onPress={() => {
             setCapturedPhoto(null);
             setNamePost("");
