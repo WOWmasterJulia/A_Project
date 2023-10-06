@@ -61,42 +61,11 @@ const Login = () => {
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(true);
-//
-//   useEffect(() => {
-//   //  const test1 = onAuthStateChanged((user) => {
-//   //    onChange(user);
-//     //  });
-//     const test1 = authStateChanged();
-//    console.log(test1);
-//  }, []);
-
-// const authStateChanged = async (onChange = () => {}) => {
-//   onAuthStateChanged((user) => {
-//     onChange(user);
-//   });
-// };
-  //
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged((user) => {
-  //     if (user) {
-  //       // Користувач автентифікований, перенаправте його на сторінку постів
-  //       navigation.navigate("Posts");
-  //     } else {
-  //       // Користувач не автентифікований, можливо, ви хочете щось інше робити тут
-  //     }
-  //   });
-
-  //   // Не забудьте відписатися від прослуховування, коли компонент розмонтується
-  //   return unsubscribe;
-  // }, []);
-
 
 useEffect(() => {
   const unsubscribe = auth.onAuthStateChanged((user) => {
     setLoading(false);
     if (user) {
-      // navigation.navigate('Post');
-      //navigation.navigate('PostsScreen');
       navigation.navigate("Home");
     }
   });
@@ -115,7 +84,6 @@ useEffect(() => {
         email,
         password
       );
-      // console.log("loginDB", credentials);
       return credentials.user;
     } catch (error) {
       throw error;
@@ -202,14 +170,6 @@ useEffect(() => {
                     <Text>{visiblePassword ? "Показати" : "Сховати"}</Text>
                   </Pressable>
                 )}
-                {/* <Pressable
-                  style={styles.buttonSee}
-                  // onPress={() => alert(1)}
-                  onPress={togglePassword}
-                > */}
-                {/* <Text style={styles.text}>Показати</Text> */}
-                {/* <Text>{secureTextEntry ? "Показати" : "Сховати"}</Text>
-                </Pressable> */}
               </View>
 
               <Pressable
